@@ -7,11 +7,17 @@
     </item>
     <item android:left="5dp">
         <shape android:shape="rectangle">
-            <gradient android:startColor="#fff3f6" />
             <solid android:color="@color/white" />
-            <padding android:left="@dimen/dp20"
-                android:bottom="@dimen/dp5"
-                android:top="@dimen/dp5"/>
+            <padding android:left="@dimen/dp5"
+              />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerColor="#ffffff"
+                android:endColor="#ffffff"
+                android:startColor="#fff3f6" />
         </shape>
     </item>
 </layer-list>

@@ -41,5 +41,22 @@
     <string name="holiday_list">Holiday List</string>
     <string name="new_leaves">New Leaves</string>
     <string name="leave_policy">Leave Policy</string>
+    <string name="type_of_leave">Type of Leave</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="joining_letter">Joining Letter</string>
+    <string name="id_card">ID Card</string>
+    <string name="access_card_no">Access Card No.</string>
+    <string name="employee_no">Employee No.</string>
+    <string name="designation">Designation</string>
+    <string name="name">Name</string>
+    <string name="father_s_name">Father\'s Name</string>
+    <string name="date_of_anniversary">Date of Anniversary</string>
+    <string name="date_of_joining">Date of Joining</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="no_of_dependent">No. of dependent</string>
+    <string name="driving_license">Driving License</string>
 
 </resources>
