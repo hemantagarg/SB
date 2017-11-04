@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/layout_bg"
+    tools:context="com.app.skybarge.activities.DashboardHome">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/topbigbg"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_need_leave"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp15"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp20"
+                android:orientation="vertical">
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvGoodMorning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_half_upper_corners"
+                    android:drawableLeft="@drawable/sun"
+                    android:drawablePadding="@dimen/dp10"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp15"
+                    android:text="Good Morning."
+                    android:textColor="@color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/mRlSwipePunchin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/swipbg">
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:drawablePadding="@dimen/dp10"
+                        android:drawableRight="@drawable/arrows_forward"
+                        android:text="@string/swipe_to_punch_in"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_15"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="@drawable/white_corners"
+                    android:padding="@dimen/dp15">
+
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvAttendance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/white_half_upper_corners"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp5"
+                        android:text="@string/attendence_summary"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mTvAttendance"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dp5"
+                        android:weightSum="2">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <RelativeLayout
+                                android:id="@+id/rl_attandence_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:background="@drawable/allellipse">
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true">
+
+                                    <TextView
+                                        android:id="@+id/mTvAttendanceDays"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:paddingRight="@dimen/dp10"
+                                        android:text="15"
+                                        android:textColor="@color/text_blue"
+                                        android:textSize="@dimen/text_size_20"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/mTvAttendanceDays"
+                                        android:gravity="center"
+                                        android:paddingBottom="@dimen/dp10"
+                                        android:paddingRight="@dimen/dp10"
+                                        android:text="@string/days"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_size_13" />
+
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+                            <com.app.skybarge.utils.CustomTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/rl_attandence_days"
+                                android:layout_centerHorizontal="true"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="@string/presented_this_month"
+                                android:textColor="@color/textcolordark"
+                                android:textSize="@dimen/text_size_13" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <RelativeLayout
+                                android:id="@+id/rl_leave_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:background="@drawable/circle_white">
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true">
+
+                                    <TextView
+                                        android:id="@+id/mTvLeaveDays"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:gravity="center"
+                                        android:paddingRight="@dimen/dp10"
+                                        android:text="0"
+                                        android:textColor="@color/text_green"
+                                        android:textSize="@dimen/text_size_20"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/mTvLeaveDays"
+                                        android:gravity="center"
+                                        android:paddingBottom="@dimen/dp10"
+                                        android:paddingRight="@dimen/dp10"
+                                        android:text="@string/days"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_size_13" />
+
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+                            <com.app.skybarge.utils.CustomTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/rl_leave_days"
+                                android:layout_centerHorizontal="true"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="@string/leaves_this_month"
+                                android:textColor="@color/textcolordark"
+                                android:textSize="@dimen/text_size_13" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="@drawable/white_corners"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp15">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp10">
+
+                        <com.app.skybarge.utils.CustomTextView
+                            android:id="@+id/mTvtoday_punched_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="@string/today_punched_in"
+                            android:textColor="@color/textcolordark"
+                            android:textSize="@dimen/text_size_14" />
+
+
+                        <com.app.skybarge.utils.CustomTextView
+                            android:id="@+id/mTvtodayPunchedTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@+id/mTvtoday_punched_in"
+                            android:gravity="right"
+                            android:maxLines="1"
+                            android:text="9:00 AM"
+                            android:textColor="@color/textcolorlight"
+                            android:textSize="@dimen/text_size_14" />
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp1"
+                        android:background="@color/view_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:padding="@dimen/dp10">
+
+                        <com.app.skybarge.utils.CustomTextView
+                            android:id="@+id/mTvyesterday_punched"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="@string/yesterday_punched"
+                            android:textColor="@color/textcolordark"
+                            android:textSize="@dimen/text_size_14" />
+
+
+                        <com.app.skybarge.utils.CustomTextView
+                            android:id="@+id/mTvYesterdayPunchedTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@+id/mTvyesterday_punched"
+                            android:gravity="right"
+                            android:maxLines="1"
+                            android:text="9:00 AM - :20 PM"
+                            android:textColor="@color/textcolorlight"
+                            android:textSize="@dimen/text_size_14" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp1"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:background="@color/view_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:padding="@dimen/dp10">
+
+                        <com.app.skybarge.utils.CustomTextView
+                            android:id="@+id/mTvlast_month_credited"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="@string/last_month_credited"
+                            android:textColor="@color/textcolordark"
+                            android:textSize="@dimen/text_size_14" />
+
+
+                        <com.app.skybarge.utils.CustomTextView
+                            android:id="@+id/mTvCredit_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@+id/mTvlast_month_credited"
+                            android:ellipsize="end"
+                            android:gravity="right"
+                            android:maxLines="1"
+                            android:text="Rs 10000 - Aug, 01 2017"
+                            android:textColor="@color/textcolorlight"
+                            android:textSize="@dimen/text_size_14" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp1"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:background="@color/view_color" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvFullMonthSummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:drawableLeft="@drawable/date"
+                        android:drawablePadding="@dimen/dp10"
+                        android:maxLines="1"
+                        android:text="Full Month Summary"
+                        android:textColor="@color/text_blue_dark"
+                        android:textSize="@dimen/text_size_14" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_need_leave"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp40"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/dp15"
+            android:background="@drawable/red_button_selector"
+            android:text="@string/need_a_leave"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

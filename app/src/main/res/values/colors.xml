@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008aff</color>
+    <color name="colorPrimaryDark">#0038c9</color>
+    <color name="colorAccent">#1a96ff</color>
+    <color name="underline">#5458DF</color>
+    <color name="button_bg_color">#008aff</color>
+    <color name="view_color">#80979797</color>
+    <color name="stats">#cecece</color>
+    <color name="text_selected_bg">#f4f4f4</color>
+    <color name="layout_bg">#edeeee</color>
+    <color name="textcolordark">#444444</color>
+    <color name="textcolorlight">#9a9a9a</color>
+    <color name="text_blue">#1e95ff</color>
+    <color name="text_blue_dark">#206df4</color>
+    <color name="text_green">#93dac0</color>
+    <color name="white">#ffffff</color>
+    <color name="text_color_black">#000000</color>
+    <color name="text_hint_color">#a4a4a4</color>
+    <color name="red">#e82558</color>
+    <color name="yellow">#ffd304</color>
+    <color name="red_select">#F84713</color>
+    <color name="tab_indicator_color">#F84713</color>
+    <color name="black">#000000</color>
+    <color name="button_bg">#008aff</color>
+    <color name="button_selected_bg">#2b78ef</color>
+    <color name="logocolor">#F34A12</color>
+</resources>

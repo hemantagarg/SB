@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <include
+        android:id="@+id/main_view"
+        layout="@layout/app_bar_dashboard_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/drawer_bg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/dp15">
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:paddingLeft="@dimen/dp10"
+                    android:text="@string/sky_barge"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_20"
+                    android:textStyle="bold" />
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:drawableLeft="@drawable/home"
+                    android:drawablePadding="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:text="@string/home"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:drawableLeft="@drawable/profile"
+                    android:drawablePadding="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:text="@string/profile"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvCalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:drawableLeft="@drawable/calender"
+                    android:drawablePadding="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:text="@string/calendar"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvHolidayList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:drawableLeft="@drawable/holiday"
+                    android:drawablePadding="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:text="@string/holiday_list"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvNewLeaves"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:drawableLeft="@drawable/leave"
+                    android:drawablePadding="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:text="@string/new_leaves"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
+
+                <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvLeavePolicy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:drawableLeft="@drawable/policy"
+                    android:drawablePadding="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:text="@string/leave_policy"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </ScrollView>
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
