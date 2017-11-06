@@ -21,16 +21,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.skybarge.R;
 import com.app.skybarge.interfaces.SwipeButtonCustomItems;
-import com.app.skybarge.utils.AppConstant;
-import com.app.skybarge.utils.AppUtils;
 import com.app.skybarge.utils.SwipeButton;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class DashboardHome extends AppCompatActivity {
 
