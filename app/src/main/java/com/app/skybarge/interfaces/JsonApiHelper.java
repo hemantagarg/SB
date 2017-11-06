@@ -10,5 +10,6 @@ public interface JsonApiHelper {
     String BASEURL_LIVE = "http://dev.stackmindz.com/sky/api/";
     String LOGIN = "login";
     String GET_PROFILE = "getprofile";
+    String ATTANDANCE_PUNCHIN = "attendancepunchin";
 
 }

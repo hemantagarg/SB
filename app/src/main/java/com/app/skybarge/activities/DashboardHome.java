@@ -1,13 +1,21 @@
 package com.app.skybarge.activities;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,23 +29,52 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.app.skybarge.R;
+import com.app.skybarge.aynctask.CommonAsyncTask;
+import com.app.skybarge.interfaces.ApiResponse;
+import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.interfaces.SwipeButtonCustomItems;
+import com.app.skybarge.utils.AppUtils;
+import com.app.skybarge.utils.GPSTracker;
 import com.app.skybarge.utils.SwipeButton;
 
-import java.util.Calendar;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class DashboardHome extends AppCompatActivity {
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
+
+public class DashboardHome extends AppCompatActivity implements ApiResponse {
 
     private Activity context;
     private DrawerLayout drawer;
     private View main_view;
     private Button btn_need_leave;
     private SwipeButton swipeButton;
-    private TextView mTvHome, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy,mTvGm;
+    private TextView mTvHome, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
     private String TAG = DashboardHome.class.getSimpleName();
-
+    private int PERMISSION_ALL = 1;
+    private String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA,
+    };
+    String latitude = "0.0", longitude = "0.0";
+    private String formatted_address = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +110,13 @@ public class DashboardHome extends AppCompatActivity {
         });
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
-        if (timeOfDay >= 0 && timeOfDay<12){
+        if (timeOfDay >= 0 && timeOfDay < 12) {
             mTvGm.setText("Good Morning");
-        }else if (timeOfDay >= 12 && timeOfDay <16 ){
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
             mTvGm.setText("Good afternoon");
-        }else if (timeOfDay >=16 && timeOfDay <21){
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
             mTvGm.setText("Good evening");
-        }else if (timeOfDay>=21){
+        } else if (timeOfDay >= 21) {
             mTvGm.setText("Good night");
         }
 
@@ -88,6 +125,7 @@ public class DashboardHome extends AppCompatActivity {
             @Override
             public void onSwipeConfirm() {
                 Log.d("NEW_STUFF", "New swipe confirm callback");
+                checkGps();
             }
         };
         swipeButtonSettings
@@ -100,28 +138,122 @@ public class DashboardHome extends AppCompatActivity {
                 .setActionConfirmDistanceFraction(0.7)
                 .setActionConfirmText(getString(R.string.swipe_punch_out));
 
-        if (swipeButton != null){
+        if (swipeButton != null) {
             swipeButton.setSwipeButtonCustomItems(swipeButtonSettings);
         }
-
     }
 
-    /*private void punchIn(){
-        if (AppUtils.isNetworkAvailable(context)){
-            try{
-                HashMap<String, String> hm = new HashMap<>();
-                hm.put("user_id",AppUtils.getUserId(AppConstant.user_id,null));
-            }catch (Exception e){
+    private void checkGps() {
+        GPSTracker gps = new GPSTracker(context);
+        if (gps.isGPSEnabled) {
+            latitude = gps.getLatitude() + "";
+            longitude = gps.getLongitude() + "";
+            punchIn();
+            setCurrentLocation();
+        } else {
+            showSettingsAlert();
+        }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GPSTracker gps = new GPSTracker(context);
+        if (gps.isGPSEnabled) {
+            latitude = gps.getLatitude() + "";
+            longitude = gps.getLongitude() + "";
+        }
+    }
+
+    /**
+     * Function to show settings alert dialog On pressing Settings button will
+     * lauch Settings Options
+     */
+    public void showSettingsAlert() {
+        try {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+
+            // Setting Dialog Title
+            alertDialog.setTitle("GPS is settings");
+
+            // Setting Dialog Message
+            alertDialog
+                    .setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+            // On pressing Settings button
+            alertDialog.setPositiveButton("Settings",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(
+                                    Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            context.startActivity(intent);
+                        }
+                    });
+
+            // on pressing cancel button
+            alertDialog.setNegativeButton("Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+            // Showing Alert Message
+            alertDialog.show();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private void punchIn() {
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        String date1 = dateFormat.format(calendar.getTime());
+
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm", Locale.ENGLISH);
+        String seleted_time = timeFormat.format(calendar.getTime());
+
+        if (AppUtils.isNetworkAvailable(context)) {
+            try {
+                HashMap<String, String> hm = new HashMap<>();
+                // user_id, in_time, atten_date,latitude,longitude,location
+                hm.put("user_id", AppUtils.getUserId(context));
+                hm.put("in_time", seleted_time);
+                hm.put("atten_date", date1);
+                hm.put("latitude", latitude);
+                hm.put("longitude", longitude);
+                hm.put("location", formatted_address);
+                //  http://dev.stackmindz.com/sky/api/attendancepunchin
+                String url = JsonApiHelper.BASEURL + JsonApiHelper.ATTANDANCE_PUNCHIN;
+                new CommonAsyncTask(1, context, this).getqueryJson(url, hm, Request.Method.POST);
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        }else{
+        } else {
             Toast.makeText(context, getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
+
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     private void init() {
-        mTvGm = (TextView)findViewById(R.id.mTvGoodMorning);
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
+        mTvGm = (TextView) findViewById(R.id.mTvGoodMorning);
         mTvHome = (TextView) findViewById(R.id.mTvHome);
         mTvProfile = (TextView) findViewById(R.id.mTvProfile);
         mTvCalendar = (TextView) findViewById(R.id.mTvCalendar);
@@ -129,9 +261,8 @@ public class DashboardHome extends AppCompatActivity {
         mTvNewLeaves = (TextView) findViewById(R.id.mTvNewLeaves);
         mTvLeavePolicy = (TextView) findViewById(R.id.mTvLeavePolicy);
 
-
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
-        swipeButton = (SwipeButton)findViewById(R.id.swipeBtn);
+        swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.left_menu);
         toolbar.setNavigationIcon(drawable);
@@ -218,4 +349,113 @@ public class DashboardHome extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    @Override
+    public void onPostSuccess(int method, JSONObject response) {
+
+    }
+
+    @Override
+    public void onPostFail(int method, String response) {
+
+    }
+
+    private void setCurrentLocation() {
+
+        // TODO Auto-generated method stub
+        GPSTracker gps = new GPSTracker(context);
+        if (gps.canGetLocation) {
+            latitude = "" + gps.getLatitude();
+            longitude = "" + gps.getLongitude();
+
+            GetAddressFromURLTask1 task1 = new GetAddressFromURLTask1();
+            task1.execute(new String[]{latitude, longitude});
+
+        } else {
+            /*Toast.makeText(context, "Could not found lat long",
+                    Toast.LENGTH_LONG).show();*/
+        }
+
+    }
+
+    private class GetAddressFromURLTask1 extends AsyncTask<String, Void, String> {
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            HttpResponse response2 = null;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            try {
+
+                HttpGet httpGet = new HttpGet("https://maps.google.com/maps/api/geocode/json?latlng=" + urls[0] + "," + urls[1] + "&ln=en");
+                HttpClient client = new DefaultHttpClient();
+                Log.e("Url ", "http://maps.google.com/maps/api/geocode/json?ln=en&latlng=" + urls[0] + "," + urls[1]);
+                try {
+                    response2 = client.execute(httpGet);
+
+                    HttpEntity entity = response2.getEntity();
+
+                    char[] buffer = new char[2048];
+                    Reader reader = new InputStreamReader(entity.getContent(), "UTF-8");
+
+                    while (true) {
+                        int n = reader.read(buffer);
+                        if (n < 0) {
+                            break;
+                        }
+                        stringBuilder.append(buffer, 0, n);
+                    }
+
+                    Log.e("Url response1", stringBuilder.toString());
+
+                } catch (ClientProtocolException e) {
+                } catch (IOException e) {
+                }
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject = new JSONObject(stringBuilder.toString());
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                Log.e("Error 2 :>>", "error in doINBackground OUTER");
+                //infowindow.setText("Error in connecting to Google Server... try again later");
+            }
+            return stringBuilder.toString();
+            //return jsonObject;
+        }
+
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result != null) {
+                    //result=	Html.fromHtml(result).toString();
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray resultsObject = jsonObject.getJSONArray("results");
+                    JSONObject formattedAddress = (JSONObject) resultsObject.get(0);
+                    formatted_address = formattedAddress.getString("formatted_address");
+
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
+
 }
