@@ -21,8 +21,16 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.skybarge.R;
+import com.app.skybarge.interfaces.SwipeButtonCustomItems;
+import com.app.skybarge.utils.AppConstant;
+import com.app.skybarge.utils.AppUtils;
+import com.app.skybarge.utils.SwipeButton;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class DashboardHome extends AppCompatActivity {
 
@@ -30,8 +38,10 @@ public class DashboardHome extends AppCompatActivity {
     private DrawerLayout drawer;
     private View main_view;
     private Button btn_need_leave;
-    private TextView mTvHome, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy;
+    private SwipeButton swipeButton;
+    private TextView mTvHome, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy,mTvGm;
     private String TAG = DashboardHome.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +75,67 @@ public class DashboardHome extends AppCompatActivity {
                 openNeedLeaveDialog();
             }
         });
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+        if (timeOfDay >= 0 && timeOfDay<12){
+            mTvGm.setText("Good Morning");
+        }else if (timeOfDay >= 12 && timeOfDay <16 ){
+            mTvGm.setText("Good afternoon");
+        }else if (timeOfDay >=16 && timeOfDay <21){
+            mTvGm.setText("Good evening");
+        }else if (timeOfDay>=21){
+            mTvGm.setText("Good night");
+        }
+
+        swipeButton.setText(getString(R.string.swipe_to_punch_in));
+        SwipeButtonCustomItems swipeButtonSettings = new SwipeButtonCustomItems() {
+            @Override
+            public void onSwipeConfirm() {
+                Log.d("NEW_STUFF", "New swipe confirm callback");
+            }
+        };
+        swipeButtonSettings
+                .setButtonPressText(getString(R.string.swipe_process))
+                .setGradientColor1(0xFF00e600)
+                .setGradientColor2(0xFF008000)
+                .setGradientColor2Width(60)
+                .setGradientColor3(0xFF00b300)
+                .setPostConfirmationColor(0xFF888888)
+                .setActionConfirmDistanceFraction(0.7)
+                .setActionConfirmText(getString(R.string.swipe_punch_out));
+
+        if (swipeButton != null){
+            swipeButton.setSwipeButtonCustomItems(swipeButtonSettings);
+        }
+
     }
 
+    /*private void punchIn(){
+        if (AppUtils.isNetworkAvailable(context)){
+            try{
+                HashMap<String, String> hm = new HashMap<>();
+                hm.put("user_id",AppUtils.getUserId(AppConstant.user_id,null));
+            }catch (Exception e){
+
+            }
+
+        }else{
+            Toast.makeText(context, getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
+        }
+    }*/
+
     private void init() {
+        mTvGm = (TextView)findViewById(R.id.mTvGoodMorning);
         mTvHome = (TextView) findViewById(R.id.mTvHome);
         mTvProfile = (TextView) findViewById(R.id.mTvProfile);
         mTvCalendar = (TextView) findViewById(R.id.mTvCalendar);
         mTvHolidayList = (TextView) findViewById(R.id.mTvHolidayList);
         mTvNewLeaves = (TextView) findViewById(R.id.mTvNewLeaves);
         mTvLeavePolicy = (TextView) findViewById(R.id.mTvLeavePolicy);
+
+
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
+        swipeButton = (SwipeButton)findViewById(R.id.swipeBtn);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.left_menu);
         toolbar.setNavigationIcon(drawable);

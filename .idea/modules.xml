@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SkyBarge.iml" filepath="$PROJECT_DIR$/SkyBarge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SkyBarge.iml" filepath="$PROJECT_DIR$/SkyBarge.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simple-crop-image-lib/simple-crop-image-lib.iml" filepath="$PROJECT_DIR$/simple-crop-image-lib/simple-crop-image-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/simple-crop-image-lib/simple-crop-image-lib.iml" filepath="$PROJECT_DIR$/simple-crop-image-lib/simple-crop-image-lib.iml" />
     </modules>
   </component>

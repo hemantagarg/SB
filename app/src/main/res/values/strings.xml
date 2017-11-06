@@ -27,6 +27,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="swipe_to_punch_in">Swipe to Punch In</string>
+    <string name="swipe_process">Processing</string>
+    <string name="swipe_punch_out">Punched out!</string>
     <string name="attendence_summary">Attendence Summary</string>
     <string name="days">Days</string>
     <string name="presented_this_month">Presented this month</string>

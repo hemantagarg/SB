@@ -6,6 +6,7 @@ package com.app.skybarge.utils;
 public class AppConstant {
 
     public static final String MyPREFERENCES = "MyPrefs";
+    public static final String user_id = "id";
     public static final String REGID = "regidKey";
     public static final String DEVICEID = "deviceidKey";
     public static final String TOKEN = "efc0c68e-8bb5-11e7-8cf8-008cfa5afa52";

@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponse {
                     AppUtils.setData(mActivity, data.getString("name"), AppConstant.USER_NAME);
                     AppUtils.setData(mActivity, data.getString("email"), AppConstant.USER_EMAIL);
                     AppUtils.setData(mActivity, data.getString("mobile"), AppConstant.USER_MOBILE);
-                    AppUtils.setData(mActivity, data.getString("profile_pic"), AppConstant.USER_IMAGE);
+                    AppUtils.setData(mActivity, data.getString("profile_pic_url"), AppConstant.USER_IMAGE);
 
                     startActivity(new Intent(mActivity, DashboardHome.class));
                     finish();
