@@ -11,5 +11,9 @@ public interface JsonApiHelper {
     String LOGIN = "login";
     String GET_PROFILE = "getprofile";
     String ATTANDANCE_PUNCHIN = "attendancepunchin";
+    String ATTANDANCE_PUNCHOUT = "attendancepunchout";
+    String APPLY_LEAVE = "apply-leave";
+    String LEAVE_TYPE = "leave-type";
+    String VIEW_CALENDER = "viewcalender";
 
 }

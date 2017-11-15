@@ -131,6 +131,36 @@ public class AppUtils {
         }
     }
 
+    public static void setPunchInId(Context context, String image) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putString("punchin_id", image);
+
+            editor.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static String getPunchInId(Context context) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            return preferences.getString("punchin_id", "");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
     public static void setUserId(Context context, String image) {
 
         try {
@@ -177,6 +207,7 @@ public class AppUtils {
         }
 
     }
+
 
     public static String getData(Context context, String key) {
 

@@ -26,8 +26,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +41,11 @@ import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.interfaces.SwipeButtonCustomItems;
+import com.app.skybarge.utils.AppConstant;
 import com.app.skybarge.utils.AppUtils;
 import com.app.skybarge.utils.GPSTracker;
 import com.app.skybarge.utils.SwipeButton;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,11 +62,12 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class DashboardHome extends AppCompatActivity implements ApiResponse {
+public class DashboardHome extends AppCompatActivity implements ApiResponse, DatePickerDialog.OnDateSetListener {
 
     private Activity context;
     private DrawerLayout drawer;
@@ -75,6 +82,12 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
     };
     String latitude = "0.0", longitude = "0.0";
     private String formatted_address = "";
+    ArrayAdapter<String> adapterLeaveTypes;
+    ArrayList<String> leaveList = new ArrayList<>();
+    ArrayList<String> leaveListId = new ArrayList<>();
+    private Spinner spinner_leave;
+    private RelativeLayout mRlSwipePunchin;
+    private TextView mTvFromDate, mTvToDate, mTvtype_of_leave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +96,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
         context = this;
         init();
         setListner();
+        getLeaveType();
     }
 
     private void setListner() {
@@ -143,13 +157,22 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
         }
     }
 
+
     private void checkGps() {
         GPSTracker gps = new GPSTracker(context);
         if (gps.isGPSEnabled) {
             latitude = gps.getLatitude() + "";
             longitude = gps.getLongitude() + "";
-            punchIn();
-            setCurrentLocation();
+            if (formatted_address.equalsIgnoreCase("")) {
+                setCurrentLocation();
+            }
+            Log.e("punchinId", "**" + AppUtils.getPunchInId(context));
+            if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
+                punchIn();
+            } else {
+                punchOut();
+            }
+
         } else {
             showSettingsAlert();
         }
@@ -162,6 +185,9 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
         if (gps.isGPSEnabled) {
             latitude = gps.getLatitude() + "";
             longitude = gps.getLongitude() + "";
+            setCurrentLocation();
+        } else {
+            showSettingsAlert();
         }
     }
 
@@ -206,6 +232,57 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
         }
     }
 
+    private void getLeaveType() {
+
+        if (AppUtils.isNetworkAvailable(context)) {
+            try {
+                HashMap<String, String> hm = new HashMap<>();
+
+                // http://dev.stackmindz.com/sky/api/leave-type
+                String url = JsonApiHelper.BASEURL + JsonApiHelper.LEAVE_TYPE;
+                new CommonAsyncTask(3, context, this).getqueryJsonNoProgress(url, hm, Request.Method.GET);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            Toast.makeText(context, getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void punchOut() {
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        String date1 = dateFormat.format(calendar.getTime());
+
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm", Locale.ENGLISH);
+        String seleted_time = timeFormat.format(calendar.getTime());
+
+        if (AppUtils.isNetworkAvailable(context)) {
+            try {
+                HashMap<String, String> hm = new HashMap<>();
+                // id, user_id,out_time,latitude,longitude,location
+                hm.put("user_id", AppUtils.getUserId(context));
+                hm.put("out_time", seleted_time);
+                hm.put("id", AppUtils.getData(context, AppConstant.PUNCHIN_ID));
+                hm.put("latitude", latitude);
+                hm.put("longitude", longitude);
+                hm.put("location", formatted_address);
+                //  http://dev.stackmindz.com/sky/api/attendancepunchout
+                String url = JsonApiHelper.BASEURL + JsonApiHelper.ATTANDANCE_PUNCHOUT;
+                new CommonAsyncTask(5, context, this).getqueryJson(url, hm, Request.Method.POST);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            Toast.makeText(context, getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     private void punchIn() {
         Calendar calendar = Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
@@ -226,7 +303,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
                 hm.put("location", formatted_address);
                 //  http://dev.stackmindz.com/sky/api/attendancepunchin
                 String url = JsonApiHelper.BASEURL + JsonApiHelper.ATTANDANCE_PUNCHIN;
-                new CommonAsyncTask(1, context, this).getqueryJson(url, hm, Request.Method.POST);
+                new CommonAsyncTask(2, context, this).getqueryJson(url, hm, Request.Method.POST);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -260,7 +337,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
         mTvHolidayList = (TextView) findViewById(R.id.mTvHolidayList);
         mTvNewLeaves = (TextView) findViewById(R.id.mTvNewLeaves);
         mTvLeavePolicy = (TextView) findViewById(R.id.mTvLeavePolicy);
-
+        mRlSwipePunchin = (RelativeLayout) findViewById(R.id.mRlSwipePunchin);
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
         swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -268,6 +345,14 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
         toolbar.setNavigationIcon(drawable);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
+            mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
+            swipeButton.setText(getResources().getString(R.string.swipe_to_punch_out));
+        } else {
+            mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
+            swipeButton.setText(getResources().getString(R.string.swipe_to_punch_in));
+        }
+
     /*
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -291,7 +376,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
 
 
     /**
-     * Open dialog for the edit comment
+     * Open dialog for the apply leave
      */
     private void openNeedLeaveDialog() {
         try {
@@ -306,25 +391,77 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
             dialog.setContentView(view);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             final EditText mEdtComment = (EditText) view.findViewById(R.id.mEdtComment);
+            mTvFromDate = (TextView) view.findViewById(R.id.mTvFromDate);
+            mTvToDate = (TextView) view.findViewById(R.id.mTvToDate);
+            mTvtype_of_leave = (TextView) view.findViewById(R.id.mTvtype_of_leave);
+            spinner_leave = (Spinner) view.findViewById(R.id.spinner_leave);
             Button btnSubmit = (Button) view.findViewById(R.id.btn_submit);
             Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 
-/*
+            spinner_leave.setAdapter(adapterLeaveTypes);
+            mTvtype_of_leave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    spinner_leave.performClick();
+                }
+            });
+            mTvFromDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Calendar now = Calendar.getInstance();
+
+                    DatePickerDialog dpd = DatePickerDialog.newInstance(DashboardHome.this,
+                            now.get(Calendar.YEAR),
+                            now.get(Calendar.MONTH),
+                            now.get(Calendar.DAY_OF_MONTH)
+                    );
+                    dpd.setMinDate(now);
+                    dpd.show(getFragmentManager(), "fromdate");
+
+                }
+            });
+            spinner_leave.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    mTvtype_of_leave.setText(spinner_leave.getSelectedItem().toString());
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+
+            mTvToDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Calendar now = Calendar.getInstance();
+
+                    DatePickerDialog dpd = DatePickerDialog.newInstance(DashboardHome.this,
+                            now.get(Calendar.YEAR),
+                            now.get(Calendar.MONTH),
+                            now.get(Calendar.DAY_OF_MONTH)
+                    );
+                    dpd.setMinDate(now);
+                    dpd.show(getFragmentManager(), "todate");
+
+                }
+            });
+
             btnSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if (!edt_comment.getText().toString().equalsIgnoreCase("")) {
-                        updateFeed(edt_comment.getText().toString(), id);
+                    if (!mTvToDate.getText().toString().equalsIgnoreCase("") && !mEdtComment.getText().toString().equalsIgnoreCase("") && !mTvtype_of_leave.getText().toString().equalsIgnoreCase("") && !mTvFromDate.getText().toString().equalsIgnoreCase("")) {
+                        applyLeave(mEdtComment.getText().toString());
                         dialog.dismiss();
                     } else {
-                        edt_comment.setError("Please enter comment");
-                        edt_comment.requestFocus();
+                        Toast.makeText(context, "Please fill all details", Toast.LENGTH_SHORT).show();
                     }
 
                 }
             });
-*/
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -340,6 +477,30 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
         }
     }
 
+    public void applyLeave(String remark) {
+
+        if (AppUtils.isNetworkAvailable(context)) {
+
+            HashMap<String, String> hm = new HashMap<>();
+            // user_id, in_time, atten_date,latitude,longitude,location
+            hm.put("user_id", AppUtils.getUserId(context));
+            hm.put("leave_type_id", leaveListId.get(spinner_leave.getSelectedItemPosition()));
+            hm.put("leave_date_from", mTvFromDate.getText().toString());
+            hm.put("latitude", latitude);
+            hm.put("longitude", longitude);
+            hm.put("location", formatted_address);
+            hm.put("remark", remark);
+            //  http://dev.stackmindz.com/sky/api/apply-leave
+            String url = JsonApiHelper.BASEURL + JsonApiHelper.APPLY_LEAVE;
+            new CommonAsyncTask(1, context, this).getqueryJson(url, hm, Request.Method.POST);
+
+
+        } else {
+            Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -352,7 +513,60 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
 
     @Override
     public void onPostSuccess(int method, JSONObject response) {
+        try {
+            if (method == 3) {
+                if (response.getString("status").equalsIgnoreCase("1")) {
+                    JSONObject leaveType = response.getJSONObject("LeaveType");
+                    JSONObject data = leaveType.getJSONObject("data");
+                    JSONArray array = data.getJSONArray("leaveType");
+                    leaveList.clear();
+                    leaveListId.clear();
+                    for (int i = 0; i < array.length(); i++) {
 
+                        JSONObject jo = array.getJSONObject(i);
+                        leaveListId.add(jo.getString("id"));
+                        leaveList.add(jo.getString("name"));
+                    }
+                    adapterLeaveTypes = new ArrayAdapter<String>(context, R.layout.row_spinner, R.id.textview, leaveList);
+                }
+            } else if (method == 2) {
+                if (response.getString("status").equalsIgnoreCase("1")) {
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    JSONObject data = response.getJSONObject("data");
+
+                    AppUtils.setPunchInId(context, data.getString("punchIn_id"));
+                    mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
+                    swipeButton.setText(getResources().getString(R.string.swipe_to_punch_out));
+                    swipeButton.setBackgroundResource(R.drawable.swipe_out_bg);
+                   /* "punchIn_id":"64",
+                            "punchIn_status":1,
+                            "yesterday_in_time":"",
+                            "yesterday_out_time":"",
+                            "present_days":3,
+                            "leave_days":0,
+                            "salary":"0"*/
+                }
+            } else if (method == 5) {
+                if (response.getString("status").equalsIgnoreCase("1")) {
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    JSONObject data = response.getJSONObject("data");
+                    AppUtils.setPunchInId(context, "");
+                    mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
+                    swipeButton.setText(getResources().getString(R.string.swipe_to_punch_in));
+                    swipeButton.setBackgroundResource(R.drawable.swipbg);
+                    //    AppUtils.setData(context, data.getString("punchIn_id"), AppConstant.PUNCHOUT_ID);
+
+                }
+            } else if (method == 1) {
+                if (response.getString("status").equalsIgnoreCase("1")) {
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -376,6 +590,17 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse {
                     Toast.LENGTH_LONG).show();*/
         }
 
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        int month = monthOfYear + 1;
+        String date = dayOfMonth + "-" + month + "-" + year;
+        if (view.getTag().equalsIgnoreCase("todate")) {
+            mTvToDate.setText(date);
+        } else {
+            mTvFromDate.setText(date);
+        }
     }
 
     private class GetAddressFromURLTask1 extends AsyncTask<String, Void, String> {

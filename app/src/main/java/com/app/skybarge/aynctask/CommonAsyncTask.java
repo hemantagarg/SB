@@ -115,5 +115,67 @@ public class CommonAsyncTask {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
+    public void getqueryJsonNoProgress(String url, final HashMap<String, String> jsonBody, int Requestmethod) {
+        Log.e("request", ": " + url + jsonBody);
+        final StringRequest jsonObjReq = new StringRequest(Requestmethod,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("response", response);
+                        try {
+                            if (response != null) {
+                                JSONObject jo = new JSONObject(response);
+                                if (listener != null)
+                                    listener.onPostSuccess(method, jo);
+                            } else {
+                                if (listener != null)
+                                    // listener.onPostRequestFailed(method, "Null data from server.");
+                                    Toast.makeText(context,
+                                            context.getResources().getString(R.string.problem_server),
+                                            Toast.LENGTH_LONG).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // hide the progress dialog
+                try {
+                    if (listener != null) {
+
+                        VolleyErrorModel mVolleyErrorModel = WebserviceAPIErrorHandler.getInstance()
+                                .VolleyErrorHandlerReturningModel(error, context);
+                        listener.onPostFail(method, mVolleyErrorModel.getStrMessage());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }) {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params = jsonBody;
+                return params;
+            }
+        };
+        queue.add(jsonObjReq);
+
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                GlobalConstants.ONE_SECOND_DELAY * 40, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    }
 
 }

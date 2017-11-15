@@ -23,22 +23,33 @@
             android:textColor="@color/text_color_black"
             android:textSize="@dimen/text_size_15" />
 
-
-        <com.app.skybarge.utils.CustomTextView
-            android:id="@+id/mTvtype_of_leave"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp10"
-            android:layout_marginRight="@dimen/dp10"
-            android:layout_marginTop="@dimen/dp10"
-            android:background="@drawable/edit_bg"
-            android:drawablePadding="@dimen/dp10"
-            android:drawableRight="@drawable/down"
-            android:hint="@string/type_of_leave"
-            android:textColorHint="@color/text_hint_color"
-            android:padding="@dimen/dp10"
-            android:textColor="@color/textcolordark"
-            android:textSize="@dimen/text_size_15" />
+            android:layout_height="wrap_content">
+
+            <com.app.skybarge.utils.CustomTextView
+                android:id="@+id/mTvtype_of_leave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/edit_bg"
+                android:drawablePadding="@dimen/dp10"
+                android:drawableRight="@drawable/down"
+                android:hint="@string/type_of_leave"
+                android:padding="@dimen/dp10"
+                android:textColor="@color/textcolordark"
+                android:textColorHint="@color/text_hint_color"
+                android:textSize="@dimen/text_size_15" />
+
+            <Spinner
+                android:id="@+id/spinner_leave"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp10" />
+
+        </RelativeLayout>
 
         <com.app.skybarge.utils.CustomTextView
             android:id="@+id/mTvFromDate"
@@ -46,7 +57,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp10"
             android:layout_marginRight="@dimen/dp10"
-            android:textColorHint="@color/text_hint_color"
             android:layout_marginTop="@dimen/dp15"
             android:background="@drawable/edit_bg"
             android:drawablePadding="@dimen/dp10"
@@ -54,6 +64,7 @@
             android:hint="@string/from_date"
             android:padding="@dimen/dp10"
             android:textColor="@color/textcolordark"
+            android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_15" />
 
         <com.app.skybarge.utils.CustomTextView
@@ -63,13 +74,13 @@
             android:layout_marginLeft="@dimen/dp10"
             android:layout_marginRight="@dimen/dp10"
             android:layout_marginTop="@dimen/dp15"
-            android:textColorHint="@color/text_hint_color"
             android:background="@drawable/edit_bg"
             android:drawablePadding="@dimen/dp10"
             android:drawableRight="@drawable/date"
             android:hint="@string/to_date"
             android:padding="@dimen/dp10"
             android:textColor="@color/textcolordark"
+            android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_15" />
 
         <EditText
@@ -79,11 +90,11 @@
             android:layout_marginLeft="@dimen/dp10"
             android:layout_marginRight="@dimen/dp10"
             android:layout_marginTop="@dimen/dp15"
-            android:textColorHint="@color/text_hint_color"
             android:background="@drawable/edit_bg"
             android:hint="Comment"
             android:padding="@dimen/dp10"
             android:textColor="@color/textcolordark"
+            android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_size_15" />
 
 

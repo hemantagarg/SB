@@ -3,34 +3,59 @@ package com.app.skybarge.activities;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.app.skybarge.R;
+import com.app.skybarge.aynctask.CommonAsyncTask;
+import com.app.skybarge.decorators.EventDecorator;
 import com.app.skybarge.decorators.MySelectorDecorator;
 import com.app.skybarge.iclasses.HeaderViewManager;
+import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.HeaderViewClickListener;
+import com.app.skybarge.interfaces.JsonApiHelper;
+import com.app.skybarge.models.ModelStudent;
+import com.app.skybarge.utils.AppUtils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 
-public class CalendarActivity extends AppCompatActivity implements OnDateSelectedListener {
+public class CalendarActivity extends AppCompatActivity implements OnDateSelectedListener, ApiResponse {
 
     private Activity mActivity;
     private MaterialCalendarView widget;
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
+    DateFormat YeardateFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    DateFormat MonthdateFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    ArrayList<ModelStudent> arrayList = new ArrayList<>();
+    ArrayList<CalendarDay> presentDates = new ArrayList<>();
+    ArrayList<CalendarDay> absentDates = new ArrayList<>();
+    ArrayList<CalendarDay> leaveDates = new ArrayList<>();
+    ArrayList<CalendarDay> holidayDates = new ArrayList<>();
+    ArrayList<String> listSessionDate = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +65,33 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
         init();
         manageHeaderView();
         setListener();
+        Calendar c = Calendar.getInstance();
+        String month = MonthdateFormat.format(c.getTime());
+        String year = YeardateFormat.format(c.getTime());
+        getCalenderData(month, year);
     }
+
+    private void getCalenderData(String month, String year) {
+        if (AppUtils.isNetworkAvailable(mActivity)) {
+            try {
+                HashMap<String, String> hm = new HashMap<>();
+                //  user_id, year, month
+                hm.put("user_id", AppUtils.getUserId(mActivity));
+                hm.put("year", year);
+                hm.put("month", month);
+                // http://dev.stackmindz.com/sky/api/viewcalender
+                String url = JsonApiHelper.BASEURL + JsonApiHelper.VIEW_CALENDER;
+                new CommonAsyncTask(1, mActivity, this).getqueryJson(url, hm, Request.Method.POST);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            Toast.makeText(mActivity, getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     /*******************************************************************
      * Function name - manageHeaderView
@@ -81,8 +132,9 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
 
-               /* String date1 = YearMonthdateFormat.format(date.getDate());
-                attendanceList(date1);*/
+                String month = MonthdateFormat.format(date.getDate());
+                String year = YeardateFormat.format(date.getDate());
+                getCalenderData(month, year);
             }
         });
     }
@@ -113,7 +165,51 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
 
     }
 
-/*
+    @Override
+    public void onPostSuccess(int method, JSONObject response) {
+        try {
+            if (method == 1) {
+                if (response.getString("status").equalsIgnoreCase("1")) {
+                    //      Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    JSONObject Calender = response.getJSONObject("Calender");
+                    JSONObject data = Calender.getJSONObject("data");
+                    JSONArray array = data.getJSONArray("calender");
+                    arrayList.clear();
+                    listSessionDate.clear();
+                    for (int i = 0; i < array.length(); i++) {
+
+                        JSONObject jo = array.getJSONObject(i);
+                        ModelStudent itemList = new ModelStudent();
+
+                        itemList.setId(jo.getString("id"));
+                        itemList.setRemark(jo.getString("remark"));
+                        itemList.setName(jo.getString("name"));
+                        itemList.setDate(jo.getString("date"));
+                        listSessionDate.add(jo.getString("date"));
+                        itemList.setStatus(jo.getString("status"));
+
+                        arrayList.add(itemList);
+                    }
+                    //  mRecyclerView.setAdapter(adapterSelfAtendanceList);
+                    if (arrayList.size() > 0) {
+                        new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
+                    }
+
+                } else {
+                    Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onPostFail(int method, String response) {
+
+    }
+
     private class ApiSimulator extends AsyncTask<Void, Void, List<CalendarDay>> {
 
         @Override
@@ -126,31 +222,44 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
             holidayDates = new ArrayList<>();
             for (int i = 0; i < arrayList.size(); i++) {
 
-                CalendarDay day = CalendarDay.from(fromDateToCalendar(arrayList.get(i).getAttn_date()));
-                if (arrayList.get(i).getAttn_status().equalsIgnoreCase("1")) {
+                CalendarDay day = CalendarDay.from(fromDateToCalendar(arrayList.get(i).getDate()));
+                if (arrayList.get(i).getStatus().equalsIgnoreCase("1")) {
                     presentDates.add(day);
-                } else if (arrayList.get(i).getAttn_status().equalsIgnoreCase("2")) {
+                } else if (arrayList.get(i).getStatus().equalsIgnoreCase("2")) {
                     absentDates.add(day);
-                } else if (arrayList.get(i).getAttn_status().equalsIgnoreCase("3")) {
+                } else if (arrayList.get(i).getStatus().equalsIgnoreCase("3")) {
                     leaveDates.add(day);
-                } else if (arrayList.get(i).getAttn_status().equalsIgnoreCase("4")) {
+                } else if (arrayList.get(i).getStatus().equalsIgnoreCase("4")) {
                     holidayDates.add(day);
                 }
-
             }
-
             return presentDates;
         }
 
         @Override
         protected void onPostExecute(@NonNull List<CalendarDay> calendarDays) {
             super.onPostExecute(calendarDays);
-
-         //   widget.addDecorator(new EventDecorator(getResources().getColor(R.color.green_color), presentDates));
+            Log.e("presentDates", ": " + presentDates.size());
+            widget.addDecorator(new EventDecorator(getResources().getColor(R.color.green_color), presentDates));
+            widget.addDecorator(new EventDecorator(getResources().getColor(R.color.blue_color), holidayDates));
+            widget.addDecorator(new EventDecorator(getResources().getColor(R.color.yellow_color), leaveDates));
+            widget.addDecorator(new EventDecorator(getResources().getColor(R.color.red_color), absentDates));
 
         }
     }
-*/
+
+    private Calendar fromDateToCalendar(String date) {
+        Calendar cal = Calendar.getInstance();
+        try {
+            DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+            Date date1 = format.parse(date);
+            cal.setTime(date1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cal;
+    }
 
 
 }

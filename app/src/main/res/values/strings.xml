@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkyBardge</string>
+    <string name="app_name">SkyBarge</string>
 
     <string name="message_network_problem">Please check your internet connectivity.</string>
     <string name="message_problem">Opps! Something went wrong, please try again.</string>
@@ -27,6 +27,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="swipe_to_punch_in">Swipe to Punch In</string>
+    <string name="swipe_to_punch_out">Swipe to Punch Out</string>
     <string name="swipe_process">Processing</string>
     <string name="swipe_punch_out">Punched out!</string>
     <string name="attendence_summary">Attendence Summary</string>
