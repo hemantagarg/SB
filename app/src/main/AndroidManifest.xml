@@ -41,6 +41,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activities.LeaveList"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".activities.UserProfile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

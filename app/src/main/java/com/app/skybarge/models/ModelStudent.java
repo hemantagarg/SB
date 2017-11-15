@@ -7,6 +7,7 @@ package com.app.skybarge.models;
 public class ModelStudent {
 
     private String id, name, date, status, remark;
+    private int rowType;
 
     public String getId() {
         return id;
@@ -46,5 +47,13 @@ public class ModelStudent {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getRowType() {
+        return rowType;
+    }
+
+    public void setRowType(int rowType) {
+        this.rowType = rowType;
     }
 }

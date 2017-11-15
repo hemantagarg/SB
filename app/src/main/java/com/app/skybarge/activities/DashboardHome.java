@@ -107,6 +107,14 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 startActivity(intent);
             }
         });
+        mTvNewLeaves.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, LeaveList.class);
+                startActivity(intent);
+            }
+        });
+
         mTvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

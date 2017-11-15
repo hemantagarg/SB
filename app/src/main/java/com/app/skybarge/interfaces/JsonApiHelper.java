@@ -15,5 +15,6 @@ public interface JsonApiHelper {
     String APPLY_LEAVE = "apply-leave";
     String LEAVE_TYPE = "leave-type";
     String VIEW_CALENDER = "viewcalender";
+    String LEAVE_LIST = "newleavelist";
 
 }
