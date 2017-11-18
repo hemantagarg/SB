@@ -88,18 +88,55 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private Spinner spinner_leave;
     private RelativeLayout mRlSwipePunchin;
     private TextView mTvFromDate, mTvToDate, mTvtype_of_leave;
+    private static DashboardHome mInstance;
+    private Button btn_swipe;
+
+    /***********************************************
+     * Function Name : getInstance
+     * Description : This function will return the instance of this activity.
+     *
+     * @return
+     */
+    public static DashboardHome getInstance() {
+        if (mInstance == null)
+            mInstance = new DashboardHome();
+        return mInstance;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_home);
         context = this;
+        mInstance = DashboardHome.this;
         init();
         setListner();
         getLeaveType();
     }
 
     private void setListner() {
+
+        btn_swipe.setOnTouchListener(new OnSwipeTouchListener(context) {
+            public void onSwipeTop() {
+          //      Toast.makeText(context, "top", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeRight() {
+                checkGps();
+             //   Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeLeft() {
+             //   Toast.makeText(context, "left", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeBottom() {
+             //   Toast.makeText(context, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
         mTvCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +203,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     }
 
 
-    private void checkGps() {
+    public void checkGps() {
         GPSTracker gps = new GPSTracker(context);
         if (gps.isGPSEnabled) {
             latitude = gps.getLatitude() + "";
@@ -348,6 +385,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mRlSwipePunchin = (RelativeLayout) findViewById(R.id.mRlSwipePunchin);
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
         swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
+        btn_swipe = (Button) findViewById(R.id.btn_swipe);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.left_menu);
         toolbar.setNavigationIcon(drawable);
@@ -355,10 +393,10 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
             mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
-            swipeButton.setText(getResources().getString(R.string.swipe_to_punch_out));
+            btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_out));
         } else {
             mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
-            swipeButton.setText(getResources().getString(R.string.swipe_to_punch_in));
+            btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_in));
         }
 
     /*
@@ -490,10 +528,11 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         if (AppUtils.isNetworkAvailable(context)) {
 
             HashMap<String, String> hm = new HashMap<>();
-            // user_id, in_time, atten_date,latitude,longitude,location
+            // user_id,leave_type_id,leave_date_from,leave_date_to, latitude,longitude,location,remark
             hm.put("user_id", AppUtils.getUserId(context));
             hm.put("leave_type_id", leaveListId.get(spinner_leave.getSelectedItemPosition()));
             hm.put("leave_date_from", mTvFromDate.getText().toString());
+            hm.put("leave_date_to", mTvToDate.getText().toString());
             hm.put("latitude", latitude);
             hm.put("longitude", longitude);
             hm.put("location", formatted_address);
@@ -544,7 +583,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
 
                     AppUtils.setPunchInId(context, data.getString("punchIn_id"));
                     mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
-                    swipeButton.setText(getResources().getString(R.string.swipe_to_punch_out));
+                    btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_out));
                     swipeButton.setBackgroundResource(R.drawable.swipe_out_bg);
                    /* "punchIn_id":"64",
                             "punchIn_status":1,
@@ -560,7 +599,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                     JSONObject data = response.getJSONObject("data");
                     AppUtils.setPunchInId(context, "");
                     mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
-                    swipeButton.setText(getResources().getString(R.string.swipe_to_punch_in));
+                    btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_in));
                     swipeButton.setBackgroundResource(R.drawable.swipbg);
                     //    AppUtils.setData(context, data.getString("punchIn_id"), AppConstant.PUNCHOUT_ID);
 

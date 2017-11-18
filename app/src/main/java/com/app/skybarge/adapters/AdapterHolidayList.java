@@ -21,14 +21,14 @@ import java.util.ArrayList;
 /**
  * Created by admin on 26-11-2015.
  */
-public class AdapterLeaveList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterHolidayList extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ArrayList<ModelStudent> detail;
     Context mContext;
     OnCustomItemClicListener listener;
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
 
-    public AdapterLeaveList(Context context, OnCustomItemClicListener lis, ArrayList<ModelStudent> list) {
+    public AdapterHolidayList(Context context, OnCustomItemClicListener lis, ArrayList<ModelStudent> list) {
 
         this.detail = list;
         this.mContext = context;
@@ -43,7 +43,7 @@ public class AdapterLeaveList extends RecyclerView.Adapter<RecyclerView.ViewHold
         RecyclerView.ViewHolder vh;
         if (viewType == VIEW_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.row_leave_list, parent, false);
+                    R.layout.row_holiday_list, parent, false);
 
             vh = new CustomViewHolder(v);
 

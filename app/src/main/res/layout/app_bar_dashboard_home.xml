@@ -53,6 +53,16 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/swipbg">
 
+                    <Button android:id="@+id/btn_swipe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/swipe_to_punch_in"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_15"
+                        android:textStyle="bold"
+                        android:background="@android:color/transparent" />
+
                     <com.app.skybarge.utils.SwipeButton
                         android:id="@+id/swipeBtn"
                         android:layout_width="match_parent"
@@ -63,7 +73,8 @@
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_15"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:layout_width="wrap_content"

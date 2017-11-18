@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.app.skybarge.R;
-import com.app.skybarge.adapters.AdapterLeaveList;
+import com.app.skybarge.adapters.AdapterHolidayList;
 import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.ConnectionDetector;
@@ -42,12 +42,12 @@ import java.util.HashMap;
 /**
  * Created by admin on 06-01-2016.
  */
-public class LeaveList extends AppCompatActivity implements OnCustomItemClicListener, ApiResponse {
+public class HolidayList extends AppCompatActivity implements OnCustomItemClicListener, ApiResponse {
 
     Context context;
     RecyclerView mRecyclerView;
     ModelStudent itemList;
-    AdapterLeaveList adapterLeaveList;
+    AdapterHolidayList adapterLeaveList;
     ArrayList<ModelStudent> arrayList;
     ConnectionDetector cd;
     RelativeLayout rl_main_layout, rl_network;
@@ -67,7 +67,7 @@ public class LeaveList extends AppCompatActivity implements OnCustomItemClicList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leavelist);
+        setContentView(R.layout.activity_holidaylist);
 
         context = this;
         init();
@@ -365,7 +365,7 @@ public class LeaveList extends AppCompatActivity implements OnCustomItemClicList
 
                         arrayList.add(itemList);
                     }
-                    adapterLeaveList = new AdapterLeaveList(context, this, arrayList);
+                    adapterLeaveList = new AdapterHolidayList(context, this, arrayList);
                     mRecyclerView.setAdapter(adapterLeaveList);
                     if (swipe_refresh != null) {
                         swipe_refresh.setRefreshing(false);
