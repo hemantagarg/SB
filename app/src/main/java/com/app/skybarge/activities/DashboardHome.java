@@ -26,6 +26,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -87,7 +89,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     ArrayList<String> leaveListId = new ArrayList<>();
     private Spinner spinner_leave;
     private RelativeLayout mRlSwipePunchin;
-    private TextView mTvFromDate, mTvToDate, mTvtype_of_leave;
+    private TextView mTvFromDate, mTvToDate, mTvtype_of_leave, mTvSwipe;
     private static DashboardHome mInstance;
     private Button btn_swipe;
 
@@ -119,28 +121,42 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
 
         btn_swipe.setOnTouchListener(new OnSwipeTouchListener(context) {
             public void onSwipeTop() {
-          //      Toast.makeText(context, "top", Toast.LENGTH_SHORT).show();
+                //      Toast.makeText(context, "top", Toast.LENGTH_SHORT).show();
             }
 
             public void onSwipeRight() {
+                animImage(context);
                 checkGps();
-             //   Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
             }
 
             public void onSwipeLeft() {
-             //   Toast.makeText(context, "left", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "left", Toast.LENGTH_SHORT).show();
             }
 
             public void onSwipeBottom() {
-             //   Toast.makeText(context, "bottom", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "bottom", Toast.LENGTH_SHORT).show();
             }
 
         });
 
+        mTvHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
         mTvCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CalendarActivity.class);
+                startActivity(intent);
+            }
+        });
+        mTvHolidayList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HolidayList.class);
                 startActivity(intent);
             }
         });
@@ -179,7 +195,6 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             mTvGm.setText("Good night");
         }
 
-        swipeButton.setText(getString(R.string.swipe_to_punch_in));
         SwipeButtonCustomItems swipeButtonSettings = new SwipeButtonCustomItems() {
             @Override
             public void onSwipeConfirm() {
@@ -187,21 +202,79 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 checkGps();
             }
         };
-        swipeButtonSettings
-                .setButtonPressText(getString(R.string.swipe_process))
-                .setGradientColor1(0xFF00e600)
-                .setGradientColor2(0xFF008000)
-                .setGradientColor2Width(60)
-                .setGradientColor3(0xFF00b300)
-                .setPostConfirmationColor(0xFF888888)
-                .setActionConfirmDistanceFraction(0.7)
-                .setActionConfirmText(getString(R.string.swipe_punch_out));
+        if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
+            swipeButtonSettings
+                    .setGradientColor1(android.R.color.transparent)
+                    .setGradientColor2(android.R.color.transparent)
+                    .setGradientColor2Width(60)
+                    .setGradientColor3(android.R.color.transparent)
+                    .setPostConfirmationColor(R.drawable.swipe_out_bg)
+                    .setActionConfirmDistanceFraction(0.6)
+
+                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_out));
+        } else {
+            swipeButtonSettings
+                    .setGradientColor1(android.R.color.transparent)
+                    .setGradientColor2(android.R.color.transparent)
+                    .setGradientColor2Width(60)
+                    .setGradientColor3(android.R.color.transparent)
+                    .setPostConfirmationColor(R.drawable.swipbg)
+                    .setActionConfirmDistanceFraction(0.6)
+                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_in));
+
+        }
 
         if (swipeButton != null) {
             swipeButton.setSwipeButtonCustomItems(swipeButtonSettings);
         }
     }
 
+    private void removeSwipeColors() {
+        SwipeButtonCustomItems swipeButtonSettings = new SwipeButtonCustomItems() {
+            @Override
+            public void onSwipeConfirm() {
+
+            }
+        };
+        if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
+            swipeButtonSettings
+                    .setGradientColor1(android.R.color.transparent)
+                    .setGradientColor2(android.R.color.transparent)
+                    .setGradientColor2Width(60)
+                    .setGradientColor3(android.R.color.transparent)
+                    .setPostConfirmationColor(R.drawable.swipe_out_bg)
+                    .setActionConfirmDistanceFraction(0.6)
+                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_out));
+        } else {
+            swipeButtonSettings
+                    .setGradientColor1(android.R.color.transparent)
+                    .setGradientColor2(android.R.color.transparent)
+                    .setGradientColor2Width(60)
+                    .setGradientColor3(android.R.color.transparent)
+                    .setPostConfirmationColor(R.drawable.swipbg)
+                    .setActionConfirmDistanceFraction(0.6)
+                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_in));
+
+        }
+
+        if (swipeButton != null) {
+            swipeButton.setSwipeButtonCustomItems(swipeButtonSettings);
+        }
+
+    }
+
+    /**
+     * Animate the swipe rightto left
+     *
+     * @param context context of the activity or fragment
+     */
+    private void animImage(final Context context) {
+        // Load the animation like this
+        final Animation animRightToLeft = AnimationUtils.loadAnimation(context, R.anim.slide_right);
+        btn_swipe.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        // Start the animation like this
+        btn_swipe.startAnimation(animRightToLeft);
+    }
 
     public void checkGps() {
         GPSTracker gps = new GPSTracker(context);
@@ -269,6 +342,36 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                         }
                     });
 
+            // Showing Alert Message
+            alertDialog.show();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Function to show settings alert dialog On pressing Settings button will
+     * lauch Settings Options
+     */
+    public void showSuccessMessageDialog(String title, String message) {
+        try {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+
+            // Setting Dialog Title
+            alertDialog.setTitle(title);
+
+            // Setting Dialog Message
+            alertDialog
+                    .setMessage(message);
+
+            // On pressing Settings button
+            alertDialog.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
             // Showing Alert Message
             alertDialog.show();
         } catch (Exception e) {
@@ -382,6 +485,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mTvHolidayList = (TextView) findViewById(R.id.mTvHolidayList);
         mTvNewLeaves = (TextView) findViewById(R.id.mTvNewLeaves);
         mTvLeavePolicy = (TextView) findViewById(R.id.mTvLeavePolicy);
+        mTvSwipe = (TextView) findViewById(R.id.mTvSwipe);
         mRlSwipePunchin = (RelativeLayout) findViewById(R.id.mRlSwipePunchin);
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
         swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
@@ -393,10 +497,10 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
             mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
-            btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_out));
+            mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_out));
         } else {
             mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
-            btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_in));
+            mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_in));
         }
 
     /*
@@ -578,13 +682,13 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 }
             } else if (method == 2) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
-                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                //    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject data = response.getJSONObject("data");
 
                     AppUtils.setPunchInId(context, data.getString("punchIn_id"));
                     mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
-                    btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_out));
-                    swipeButton.setBackgroundResource(R.drawable.swipe_out_bg);
+                    mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_out));
+                    showSuccessMessageDialog("Thank You", "Punch In Sucessfully");
                    /* "punchIn_id":"64",
                             "punchIn_status":1,
                             "yesterday_in_time":"",
@@ -595,12 +699,12 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 }
             } else if (method == 5) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
-                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject data = response.getJSONObject("data");
                     AppUtils.setPunchInId(context, "");
                     mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
-                    btn_swipe.setText(getResources().getString(R.string.swipe_to_punch_in));
-                    swipeButton.setBackgroundResource(R.drawable.swipbg);
+                    mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_in));
+                    showSuccessMessageDialog("Thank You", "Punch Out Sucessfully");
                     //    AppUtils.setData(context, data.getString("punchIn_id"), AppConstant.PUNCHOUT_ID);
 
                 }

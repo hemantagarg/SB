@@ -53,15 +53,13 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/swipbg">
 
-                    <Button android:id="@+id/btn_swipe"
+                    <Button
+                        android:id="@+id/btn_swipe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/swipe_to_punch_in"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_15"
-                        android:textStyle="bold"
-                        android:background="@android:color/transparent" />
+                        android:background="@android:color/transparent"
+                        android:visibility="gone" />
+
 
                     <com.app.skybarge.utils.SwipeButton
                         android:id="@+id/swipeBtn"
@@ -69,12 +67,23 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:background="@android:color/transparent"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_15"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/mTvSwipe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
                         android:text="@string/swipe_to_punch_in"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_15"
                         android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <ImageView
                         android:layout_width="wrap_content"

@@ -1,7 +1,9 @@
 package com.app.skybarge.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -41,6 +43,7 @@ public class AppUtils {
         }
         return isValid;
     }
+
     /*  Show Debug Message into Logcat  */
     public static void showLog(String TAG, String msg) {
         Log.d(TAG, msg);
@@ -160,6 +163,35 @@ public class AppUtils {
         return "";
     }
 
+    /**
+     * Function to show settings alert dialog On pressing Settings button will
+     * lauch Settings Options
+     */
+    public void showSuccessMessageDialog(Context context, String title, String message) {
+        try {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+
+            // Setting Dialog Title
+            alertDialog.setTitle(title);
+
+            // Setting Dialog Message
+            alertDialog
+                    .setMessage(message);
+
+            // On pressing Settings button
+            alertDialog.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            // Showing Alert Message
+            alertDialog.show();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     public static void setUserId(Context context, String image) {
 

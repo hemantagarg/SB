@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -76,26 +75,16 @@ public class AdapterHolidayList extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ModelStudent m1 = (ModelStudent) detail.get(position);
 
-            ((CustomViewHolder) holder).text_dapartment_label.setText(m1.getStart_date() + " - " + m1.getEnd_date());
-            ((CustomViewHolder) holder).text_feedbak_type.setText(m1.getName());
-            ((CustomViewHolder) holder).text_date.setText("Apply date : " + m1.getApply_date());
-            ((CustomViewHolder) holder).text_message.setText("Remark : " + m1.getReason());
+            ((CustomViewHolder) holder).text_date.setText(m1.getStart_date());
+            ((CustomViewHolder) holder).text_day.setText(m1.getName());
+            ((CustomViewHolder) holder).text_message.setText(m1.getReason());
 
-            ((CustomViewHolder) holder).image_delete.setOnClickListener(new View.OnClickListener() {
+            ((CustomViewHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onItemClickListener(position, 2);
                 }
             });
-
-            if (m1.getIs_status().equalsIgnoreCase("1")) {
-                //((CustomViewHolder) holder).image_delete.setVisibility(View.GONE);
-                ((CustomViewHolder) holder).text_status.setBackgroundColor(Color.parseColor("#32CD32"));
-            } else {
-                //    ((CustomViewHolder) holder).image_delete.setVisibility(View.VISIBLE);
-                ((CustomViewHolder) holder).text_status.setBackgroundColor(Color.parseColor("#e82558"));
-            }
-            ((CustomViewHolder) holder).text_status.setText(m1.getStatus());
 
         } else {
             ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
@@ -111,20 +100,16 @@ public class AdapterHolidayList extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView text_dapartment_label, text_feedbak_type, text_status, text_date, text_message, text_messageteacher;
+        TextView text_dot, text_date, text_message, text_day;
         CardView card_view;
-        ImageView image_delete;
 
         public CustomViewHolder(View view) {
             super(view);
 
-            this.text_dapartment_label = (TextView) view.findViewById(R.id.text_dapartment_label);
+            this.text_dot = (TextView) view.findViewById(R.id.text_dot);
             this.text_date = (TextView) view.findViewById(R.id.text_date);
-            this.text_status = (TextView) view.findViewById(R.id.text_status);
             this.text_message = (TextView) view.findViewById(R.id.text_message);
-            this.text_messageteacher = (TextView) view.findViewById(R.id.text_messageteacher);
-            this.text_feedbak_type = (TextView) view.findViewById(R.id.text_feedbak_type);
-            this.image_delete = (ImageView) view.findViewById(R.id.image_delete);
+            this.text_day = (TextView) view.findViewById(R.id.text_day);
             this.card_view = (CardView) view.findViewById(R.id.card_view);
         }
     }

@@ -92,11 +92,75 @@
                     android:textColor="@color/textcolorlight"
                     android:textSize="@dimen/text_size_14" />
 
+                <RelativeLayout
+                    android:id="@+id/rl_leaves"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mTvLeaves"
+                    android:paddingBottom="@dimen/dp5"
+                    android:visibility="gone">
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvSickLeaves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/dp15"
+                        android:text="Sick Leave"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvTotalSickleaves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@+id/mTvSickLeaves"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp15"
+                        android:text="2"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvUrgentLeaves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mTvSickLeaves"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/dp15"
+                        android:text="Urgent Leave"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvTotalUrgentleaves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/mTvTotalSickleaves"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:layout_toRightOf="@+id/mTvUrgentLeaves"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp15"
+                        android:text="2"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_14" />
+                </RelativeLayout>
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp5"
                 android:layout_marginTop="@dimen/dp10"
                 android:background="@drawable/yellow_line_bg">
 
@@ -126,6 +190,98 @@
                     android:text="Rs 10000"
                     android:textColor="@color/textcolorlight"
                     android:textSize="@dimen/text_size_14" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_salary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mTvlast_month_credited"
+                    android:paddingBottom="@dimen/dp5"
+                    android:visibility="gone">
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvbasic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/dp15"
+                        android:text="Basic"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvBasicSalary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@+id/mTvbasic"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp15"
+                        android:text="Rs 2000"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvHra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mTvbasic"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/dp15"
+                        android:text="HRA"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvHraSalary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/mTvBasicSalary"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:layout_toRightOf="@+id/mTvHra"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp15"
+                        android:text="Rs 3500"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvPf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mTvHra"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/dp15"
+                        android:text="PF"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvPfSalary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/mTvHraSalary"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:layout_toRightOf="@+id/mTvPf"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp15"
+                        android:text="Rs 3500"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_14" />
+                </RelativeLayout>
 
             </RelativeLayout>
         </LinearLayout>

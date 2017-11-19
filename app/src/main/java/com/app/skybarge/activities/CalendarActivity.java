@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -56,6 +59,9 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
     ArrayList<CalendarDay> leaveDates = new ArrayList<>();
     ArrayList<CalendarDay> holidayDates = new ArrayList<>();
     ArrayList<String> listSessionDate = new ArrayList<>();
+    private RelativeLayout rl_leaves, rl_salary;
+    private boolean isLeaveOpen = false, isSalryOpen = false;
+    private TextView mTvLeaves, mTvlast_month_credited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +143,33 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
                 getCalenderData(month, year);
             }
         });
+        mTvLeaves.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isLeaveOpen) {
+                    rl_leaves.setVisibility(View.GONE);
+                    isLeaveOpen = false;
+                } else {
+                    rl_leaves.setVisibility(View.VISIBLE);
+                    isLeaveOpen = true;
+                }
+            }
+        });
+        mTvlast_month_credited.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSalryOpen) {
+                    rl_salary.setVisibility(View.GONE);
+                    isSalryOpen = false;
+                } else {
+                    rl_salary.setVisibility(View.VISIBLE);
+                    isSalryOpen = true;
+                }
+            }
+        });
+
     }
+
 
     private void init() {
         widget = (MaterialCalendarView) findViewById(R.id.calendarView);
@@ -145,6 +177,10 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
         Calendar calendar = Calendar.getInstance();
         widget.setSelectedDate(calendar.getTime());
         widget.addDecorator(new MySelectorDecorator(mActivity));
+        rl_leaves = (RelativeLayout) findViewById(R.id.rl_leaves);
+        rl_salary = (RelativeLayout) findViewById(R.id.rl_salary);
+        mTvLeaves = (TextView) findViewById(R.id.mTvLeaves);
+        mTvlast_month_credited = (TextView) findViewById(R.id.mTvlast_month_credited);
     }
 
 
