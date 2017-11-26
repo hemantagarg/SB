@@ -32,7 +32,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -121,13 +120,19 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     }
 
     private void setListner() {
-
-        punchin_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        punchin_switch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 checkGps();
+
             }
         });
+     /*   punchin_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });*/
 
         btn_swipe.setOnTouchListener(new OnSwipeTouchListener(context) {
             public void onSwipeTop() {
