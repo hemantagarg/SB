@@ -21,6 +21,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -92,6 +94,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private TextView mTvFromDate, mTvToDate, mTvtype_of_leave, mTvSwipe;
     private static DashboardHome mInstance;
     private Button btn_swipe;
+    private SwitchCompat punchin_switch;
 
     /***********************************************
      * Function Name : getInstance
@@ -118,6 +121,13 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     }
 
     private void setListner() {
+
+        punchin_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkGps();
+            }
+        });
 
         btn_swipe.setOnTouchListener(new OnSwipeTouchListener(context) {
             public void onSwipeTop() {
@@ -490,17 +500,20 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
         swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
         btn_swipe = (Button) findViewById(R.id.btn_swipe);
+        punchin_switch = (SwitchCompat) findViewById(R.id.punchin_switch);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.left_menu);
         toolbar.setNavigationIcon(drawable);
         setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
-            mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
-            mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_out));
-        } else {
-            mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
+            //     mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
+            punchin_switch.setChecked(false);
             mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_in));
+        } else {
+            punchin_switch.setChecked(true);
+            mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_out));
+            //   mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
         }
 
     /*
@@ -682,11 +695,11 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 }
             } else if (method == 2) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
-                //    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject data = response.getJSONObject("data");
 
                     AppUtils.setPunchInId(context, data.getString("punchIn_id"));
-                    mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
+                    //   mRlSwipePunchin.setBackgroundResource(R.drawable.swipe_out_bg);
                     mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_out));
                     showSuccessMessageDialog("Thank You", "Punch In Sucessfully");
                    /* "punchIn_id":"64",
@@ -696,17 +709,31 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                             "present_days":3,
                             "leave_days":0,
                             "salary":"0"*/
+                } else {
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    if (punchin_switch.isChecked()) {
+                        punchin_switch.setChecked(false);
+                    } else {
+                        punchin_switch.setChecked(true);
+                    }
                 }
             } else if (method == 5) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
-                  //  Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject data = response.getJSONObject("data");
                     AppUtils.setPunchInId(context, "");
-                    mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
+                    //   mRlSwipePunchin.setBackgroundResource(R.drawable.swipbg);
                     mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_in));
                     showSuccessMessageDialog("Thank You", "Punch Out Sucessfully");
                     //    AppUtils.setData(context, data.getString("punchIn_id"), AppConstant.PUNCHOUT_ID);
 
+                } else {
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    if (punchin_switch.isChecked()) {
+                        punchin_switch.setChecked(false);
+                    } else {
+                        punchin_switch.setChecked(true);
+                    }
                 }
             } else if (method == 1) {
                 if (response.getString("status").equalsIgnoreCase("1")) {

@@ -33,4 +33,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/primary_text_light</item>
     </style>
+
+    <style name="Color1SwitchStyle_tealishGreen">
+        <item name="colorControlActivated">@color/red</item>
+        <item name="colorSwitchThumbNormal">@color/white</item>
+    </style>
+
 </resources>

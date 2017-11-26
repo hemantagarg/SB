@@ -47,11 +47,27 @@
                     android:text="Good Morning."
                     android:textColor="@color/black" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp1"
+                    android:background="@color/view_color" />
+
                 <RelativeLayout
                     android:id="@+id/mRlSwipePunchin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/swipbg">
+                    android:background="@drawable/white_corners"
+                    android:padding="@dimen/dp10">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/punchin_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:checked="false"
+                        android:theme="@style/Color1SwitchStyle_tealishGreen" />
 
                     <Button
                         android:id="@+id/btn_swipe"
@@ -71,7 +87,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_15"
                         android:textStyle="bold"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/mTvSwipe"
@@ -80,7 +96,7 @@
                         android:layout_centerInParent="true"
                         android:text="@string/swipe_to_punch_in"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/textcolordark"
                         android:textSize="@dimen/text_size_15"
                         android:textStyle="bold"
                         android:visibility="visible" />
