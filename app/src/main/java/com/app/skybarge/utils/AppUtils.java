@@ -89,6 +89,34 @@ public class AppUtils {
         }
         return null;
     }
+    public static void setAuthKey(Context context, String image) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putString("auth_key", image);
+
+            editor.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static String getAuthKey(Context context) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            return preferences.getString("auth_key", "");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public static void setBadge(Context context, int count) {
         String launcherClassName = getLauncherClassName(context);

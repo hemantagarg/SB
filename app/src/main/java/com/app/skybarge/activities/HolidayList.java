@@ -72,7 +72,7 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
         context = this;
         init();
         setListener();
-        leaveList();
+        HolidayList();
     }
 
     private void init() {
@@ -120,7 +120,7 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                leaveListRefresh();
+                HolidayListRefresh();
             }
         });
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -245,35 +245,33 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 21 && resultCode == RESULT_OK) {
 
-            leaveListRefresh();
+            HolidayListRefresh();
         }
     }
 
 
-    public void leaveList() {
+    public void HolidayList() {
 
         if (AppUtils.isNetworkAvailable(context)) {
 
             HashMap<String, String> hm = new HashMap<>();
-            hm.put("user_id", AppUtils.getUserId(context));
             // http://dev.stackmindz.com/sky/api/viewcalender
-            String url = JsonApiHelper.BASEURL + JsonApiHelper.LEAVE_LIST;
-            new CommonAsyncTask(1, context, this).getqueryJson(url, hm, Request.Method.POST);
+            String url = JsonApiHelper.BASEURL + JsonApiHelper.HOLIDAY_LIST;
+            new CommonAsyncTask(1, context, this).getqueryJson(url, hm, Request.Method.GET);
         } else {
             Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    public void leaveListRefresh() {
+    public void HolidayListRefresh() {
 
         if (AppUtils.isNetworkAvailable(context)) {
 
             HashMap<String, String> hm = new HashMap<>();
-            hm.put("user_id", AppUtils.getUserId(context));
             // http://dev.stackmindz.com/sky/api/viewcalender
-            String url = JsonApiHelper.BASEURL + JsonApiHelper.LEAVE_LIST;
-            new CommonAsyncTask(1, context, this).getqueryJsonNoProgress(url, hm, Request.Method.POST);
+            String url = JsonApiHelper.BASEURL + JsonApiHelper.HOLIDAY_LIST;
+            new CommonAsyncTask(1, context, this).getqueryJsonNoProgress(url, hm, Request.Method.GET);
         } else {
             Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
@@ -352,16 +350,10 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
 
                         itemList.setId(jo.getString("id"));
 
-                        itemList.setId(jo.getString("id"));
                         itemList.setName(jo.getString("name"));
-                        itemList.setStart_date(jo.getString("start_date"));
                         itemList.setRowType(1);
-                        itemList.setEnd_date(jo.getString("end_date"));
-                        itemList.setStatus(jo.getString("status"));
-                        itemList.setIs_status(jo.getString("is_status"));
-                        itemList.setRemark(jo.getString("remark"));
-                        itemList.setReason(jo.getString("reason"));
-                        itemList.setApply_date(jo.getString("apply_date"));
+                        itemList.setDate(jo.getString("date"));
+
 
                         arrayList.add(itemList);
                     }
@@ -386,7 +378,7 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
             } else if (method == 4) {
                 if (response.getString("response").equalsIgnoreCase("1")) {
 
-                    leaveListRefresh();
+                    HolidayListRefresh();
                     Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
                 }
             } else if (method == 3) {

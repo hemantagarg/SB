@@ -162,7 +162,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:paddingRight="@dimen/dp10"
-                                        android:text="15"
+                                        android:text="0"
                                         android:textColor="@color/text_blue"
                                         android:textSize="@dimen/text_size_20"
                                         android:textStyle="bold" />
@@ -285,7 +285,7 @@
                             android:layout_toRightOf="@+id/mTvtoday_punched_in"
                             android:gravity="right"
                             android:maxLines="1"
-                            android:text="9:00 AM"
+                            android:text=""
                             android:textColor="@color/textcolorlight"
                             android:textSize="@dimen/text_size_14" />
 
@@ -321,7 +321,7 @@
                             android:layout_toRightOf="@+id/mTvyesterday_punched"
                             android:gravity="right"
                             android:maxLines="1"
-                            android:text="9:00 AM - :20 PM"
+                            android:text=""
                             android:textColor="@color/textcolorlight"
                             android:textSize="@dimen/text_size_14" />
 
@@ -358,7 +358,7 @@
                             android:ellipsize="end"
                             android:gravity="right"
                             android:maxLines="1"
-                            android:text="Rs 10000 - Aug, 01 2017"
+                            android:text=""
                             android:textColor="@color/textcolorlight"
                             android:textSize="@dimen/text_size_14" />
 

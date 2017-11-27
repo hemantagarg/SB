@@ -77,7 +77,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private View main_view;
     private Button btn_need_leave;
     private SwipeButton swipeButton;
-    private TextView mTvHome, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
+    private TextView mTvHome,mTvLeaveDays,mTvAttendanceDays,mTvyesterday_punched,mTvCredit_amount,mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
     private String TAG = DashboardHome.class.getSimpleName();
     private int PERMISSION_ALL = 1;
     private String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -90,7 +90,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     ArrayList<String> leaveListId = new ArrayList<>();
     private Spinner spinner_leave;
     private RelativeLayout mRlSwipePunchin;
-    private TextView mTvFromDate, mTvToDate, mTvtype_of_leave, mTvSwipe;
+    private TextView mTvFromDate, mTvToDate, mTvtype_of_leave, mTvSwipe,mTvLogout;
     private static DashboardHome mInstance;
     private Button btn_swipe;
     private SwitchCompat punchin_switch;
@@ -117,6 +117,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         init();
         setListner();
         getLeaveType();
+        getattendancedata();
     }
 
     private void setListner() {
@@ -188,6 +189,13 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             public void onClick(View v) {
                 Intent intent = new Intent(context, UserProfile.class);
                 startActivity(intent);
+            }
+        });
+        mTvLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLogoutBox();
+
             }
         });
 
@@ -394,7 +402,29 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             e.printStackTrace();
         }
     }
+    private void getattendancedata() {
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        String date1 = dateFormat.format(calendar.getTime());
+        if (AppUtils.isNetworkAvailable(context)) {
+            try {
+                HashMap<String, String> hm = new HashMap<>();
+                hm.put("user_id", AppUtils.getUserId(context));
+                hm.put("date", date1);
+                hm.put("auth_key", AppUtils.getAuthKey(context));
 
+                // http://dev.stackmindz.com/sky/api/leave-type
+                String url = JsonApiHelper.BASEURL + JsonApiHelper.ATTENDANCEDETAILS;
+                new CommonAsyncTask(4, context, this).getqueryJsonNoProgress(url, hm, Request.Method.POST);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            Toast.makeText(context, getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
+        }
+    }
     private void getLeaveType() {
 
         if (AppUtils.isNetworkAvailable(context)) {
@@ -428,7 +458,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 // id, user_id,out_time,latitude,longitude,location
                 hm.put("user_id", AppUtils.getUserId(context));
                 hm.put("out_time", seleted_time);
-                hm.put("id", AppUtils.getData(context, AppConstant.PUNCHIN_ID));
+                hm.put("id", AppUtils.getPunchInId(context));
                 hm.put("latitude", latitude);
                 hm.put("longitude", longitude);
                 hm.put("location", formatted_address);
@@ -498,6 +528,8 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mTvProfile = (TextView) findViewById(R.id.mTvProfile);
         mTvCalendar = (TextView) findViewById(R.id.mTvCalendar);
         mTvHolidayList = (TextView) findViewById(R.id.mTvHolidayList);
+
+        mTvLogout = (TextView) findViewById(R.id.mTvLogout);
         mTvNewLeaves = (TextView) findViewById(R.id.mTvNewLeaves);
         mTvLeavePolicy = (TextView) findViewById(R.id.mTvLeavePolicy);
         mTvSwipe = (TextView) findViewById(R.id.mTvSwipe);
@@ -505,6 +537,16 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
         swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
         btn_swipe = (Button) findViewById(R.id.btn_swipe);
+
+        mTvtodayPunchedTime = (TextView) findViewById(R.id.mTvtodayPunchedTime);
+        mTvCredit_amount = (TextView) findViewById(R.id.mTvCredit_amount);
+        mTvyesterday_punched = (TextView) findViewById(R.id.mTvYesterdayPunchedTime);
+        mTvLeaveDays = (TextView) findViewById(R.id.mTvLeaveDays);
+        mTvAttendanceDays = (TextView) findViewById(R.id.mTvAttendanceDays);
+
+
+
+
         punchin_switch = (SwitchCompat) findViewById(R.id.punchin_switch);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.left_menu);
@@ -542,7 +584,41 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         toggle.syncState();
     }
 
+    private void showLogoutBox() {
 
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                DashboardHome.this);
+
+        alertDialog.setTitle("LOG OUT !");
+
+        alertDialog.setMessage("Are you sure you want to Logout?");
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        AppUtils.setUserId(context, "");
+
+
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
+
+    }
     /**
      * Open dialog for the apply leave
      */
@@ -714,6 +790,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                             "present_days":3,
                             "leave_days":0,
                             "salary":"0"*/
+                    getattendancedata();
                 } else {
                     Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     if (punchin_switch.isChecked()) {
@@ -722,7 +799,21 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                         punchin_switch.setChecked(true);
                     }
                 }
-            } else if (method == 5) {
+            }
+            else if (method == 4) {
+                if (response.getString("status").equalsIgnoreCase("1")) {
+                    JSONObject data = response.getJSONObject("data");
+                    mTvLeaveDays.setText(data.getString("leave_days"));
+                    mTvAttendanceDays.setText(data.getString("present_days"));
+                    mTvCredit_amount.setText(data.getString("salary"));
+                    mTvtodayPunchedTime.setText(data.getString("today_punch_in")+""+data.getString("today_punch_out"));
+                    mTvyesterday_punched.setText(data.getString("yesterday_in_time")+ " - "+data.getString("yesterday_out_time"));
+
+                } else {
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                }
+            }
+            else if (method == 5) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     //  Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject data = response.getJSONObject("data");
@@ -731,7 +822,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                     mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_in));
                     showSuccessMessageDialog("Thank You", "Punch Out Sucessfully");
                     //    AppUtils.setData(context, data.getString("punchIn_id"), AppConstant.PUNCHOUT_ID);
-
+                    getattendancedata();
                 } else {
                     Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     if (punchin_switch.isChecked()) {
@@ -747,6 +838,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                     Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
