@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponse {
             @Override
             public void onClick(View view) {
 
-                //   startActivity(new Intent(mActivity, ForgotPassword.class));
+                  startActivity(new Intent(mActivity, ForgotActivity.class));
             }
         });
     }

@@ -126,6 +126,19 @@
                     android:textSize="@dimen/text_size_15"
                     android:textStyle="bold" />
                 <com.app.skybarge.utils.CustomTextView
+                    android:id="@+id/mTvchangepassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:drawableLeft="@drawable/policy"
+                    android:drawablePadding="@dimen/dp30"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:text="Change Password"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold" />
+                <com.app.skybarge.utils.CustomTextView
                     android:id="@+id/mTvLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

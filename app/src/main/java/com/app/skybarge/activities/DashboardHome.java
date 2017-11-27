@@ -77,7 +77,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private View main_view;
     private Button btn_need_leave;
     private SwipeButton swipeButton;
-    private TextView mTvHome,mTvLeaveDays,mTvAttendanceDays,mTvyesterday_punched,mTvCredit_amount,mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
+    private TextView mTvHome,mTvLeaveDays,mTvchangepassword,mTvAttendanceDays,mTvyesterday_punched,mTvCredit_amount,mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
     private String TAG = DashboardHome.class.getSimpleName();
     private int PERMISSION_ALL = 1;
     private String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -188,6 +188,12 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UserProfile.class);
+                startActivity(intent);
+            }
+        });  mTvchangepassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ChangePassword.class);
                 startActivity(intent);
             }
         });
@@ -526,6 +532,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mTvGm = (TextView) findViewById(R.id.mTvGoodMorning);
         mTvHome = (TextView) findViewById(R.id.mTvHome);
         mTvProfile = (TextView) findViewById(R.id.mTvProfile);
+        mTvchangepassword = (TextView) findViewById(R.id.mTvchangepassword);
         mTvCalendar = (TextView) findViewById(R.id.mTvCalendar);
         mTvHolidayList = (TextView) findViewById(R.id.mTvHolidayList);
 

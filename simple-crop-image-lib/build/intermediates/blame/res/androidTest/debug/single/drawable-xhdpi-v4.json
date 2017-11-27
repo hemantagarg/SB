@@ -1,31 +1,11 @@
 [
     {
-        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\indicator_autocrop.png",
-        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\indicator_autocrop.png"
-    },
-    {
-        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ic_rotate_right.png",
-        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ic_rotate_right.png"
-    },
-    {
-        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\btn_crop_operator.9.png",
-        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\btn_crop_operator.9.png"
-    },
-    {
         "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_rotate_right.png",
         "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_rotate_right.png"
     },
     {
         "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/btn_crop_operator.9.png",
         "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/btn_crop_operator.9.png"
-    },
-    {
-        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\btn_crop_pressed.9.png",
-        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\btn_crop_pressed.9.png"
-    },
-    {
-        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\camera_crop_width.png",
-        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\camera_crop_width.png"
     },
     {
         "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/camera_crop_height.png",
@@ -46,13 +26,5 @@
     {
         "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/indicator_autocrop.png",
         "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/indicator_autocrop.png"
-    },
-    {
-        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\camera_crop_height.png",
-        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\camera_crop_height.png"
-    },
-    {
-        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\ic_rotate_left.png",
-        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/E:\\workspace_new\\WorkspaceSkyBardge\\SkyBarge\\simple-crop-image-lib\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ic_rotate_left.png"
     }
 ]
