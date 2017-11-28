@@ -44,7 +44,6 @@ import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.interfaces.SwipeButtonCustomItems;
-import com.app.skybarge.utils.AppConstant;
 import com.app.skybarge.utils.AppUtils;
 import com.app.skybarge.utils.GPSTracker;
 import com.app.skybarge.utils.SwipeButton;
@@ -77,7 +76,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private View main_view;
     private Button btn_need_leave;
     private SwipeButton swipeButton;
-    private TextView mTvHome,mTvLeaveDays,mTvchangepassword,mTvAttendanceDays,mTvyesterday_punched,mTvCredit_amount,mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
+    private TextView mTvHome, mTvLeaveDays, mTvchangepassword, mTvAttendanceDays, mTvyesterday_punched, mTvCredit_amount, mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
     private String TAG = DashboardHome.class.getSimpleName();
     private int PERMISSION_ALL = 1;
     private String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -90,7 +89,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     ArrayList<String> leaveListId = new ArrayList<>();
     private Spinner spinner_leave;
     private RelativeLayout mRlSwipePunchin;
-    private TextView mTvFromDate, mTvToDate, mTvtype_of_leave, mTvSwipe,mTvLogout;
+    private TextView mTvFromDate, mTvToDate, mTvtype_of_leave, mTvSwipe, mTvLogout;
     private static DashboardHome mInstance;
     private Button btn_swipe;
     private SwitchCompat punchin_switch;
@@ -125,7 +124,6 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             @Override
             public void onClick(View v) {
                 checkGps();
-
             }
         });
      /*   punchin_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -190,7 +188,8 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 Intent intent = new Intent(context, UserProfile.class);
                 startActivity(intent);
             }
-        });  mTvchangepassword.setOnClickListener(new View.OnClickListener() {
+        });
+        mTvchangepassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChangePassword.class);
@@ -408,6 +407,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             e.printStackTrace();
         }
     }
+
     private void getattendancedata() {
         Calendar calendar = Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
@@ -431,6 +431,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             Toast.makeText(context, getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
     }
+
     private void getLeaveType() {
 
         if (AppUtils.isNetworkAvailable(context)) {
@@ -552,8 +553,6 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mTvAttendanceDays = (TextView) findViewById(R.id.mTvAttendanceDays);
 
 
-
-
         punchin_switch = (SwitchCompat) findViewById(R.id.punchin_switch);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         Drawable drawable = ContextCompat.getDrawable(context, R.drawable.left_menu);
@@ -626,6 +625,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         alertDialog.show();
 
     }
+
     /**
      * Open dialog for the apply leave
      */
@@ -799,28 +799,35 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                             "salary":"0"*/
                     getattendancedata();
                 } else {
-                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    showSuccessMessageDialog("Warning", "You can Punch In and Punch out only once a day.");
+                    // Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     if (punchin_switch.isChecked()) {
                         punchin_switch.setChecked(false);
                     } else {
                         punchin_switch.setChecked(true);
                     }
                 }
-            }
-            else if (method == 4) {
+            } else if (method == 4) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     JSONObject data = response.getJSONObject("data");
                     mTvLeaveDays.setText(data.getString("leave_days"));
                     mTvAttendanceDays.setText(data.getString("present_days"));
                     mTvCredit_amount.setText(data.getString("salary"));
-                    mTvtodayPunchedTime.setText(data.getString("today_punch_in")+""+data.getString("today_punch_out"));
-                    mTvyesterday_punched.setText(data.getString("yesterday_in_time")+ " - "+data.getString("yesterday_out_time"));
+                    if (data.getString("today_punch_out").equalsIgnoreCase("")) {
+                        mTvtodayPunchedTime.setText(data.getString("today_punch_in"));
+                    } else {
+                        mTvtodayPunchedTime.setText(data.getString("today_punch_in") + " - " + data.getString("today_punch_out"));
+                    }
+                    if (data.getString("yesterday_out_time").equalsIgnoreCase("")) {
+                        mTvyesterday_punched.setText(data.getString("yesterday_in_time"));
+                    } else {
+                        mTvyesterday_punched.setText(data.getString("yesterday_in_time") + " - " + data.getString("yesterday_out_time"));
+                    }
 
                 } else {
                     Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
-            }
-            else if (method == 5) {
+            } else if (method == 5) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     //  Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject data = response.getJSONObject("data");

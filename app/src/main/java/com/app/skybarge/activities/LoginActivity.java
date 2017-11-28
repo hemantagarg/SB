@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponse {
             @Override
             public void onClick(View view) {
 
-                  startActivity(new Intent(mActivity, ForgotActivity.class));
+                startActivity(new Intent(mActivity, ForgotActivity.class));
             }
         });
     }
@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponse {
                     AppUtils.setData(mActivity, data.getString("name"), AppConstant.USER_NAME);
                     AppUtils.setData(mActivity, data.getString("email"), AppConstant.USER_EMAIL);
                     AppUtils.setData(mActivity, data.getString("mobile"), AppConstant.USER_MOBILE);
+                    AppUtils.setAuthKey(mActivity, data.getString("auth_key"));
                     AppUtils.setData(mActivity, data.getString("profile_pic_url"), AppConstant.USER_IMAGE);
 
                     startActivity(new Intent(mActivity, DashboardHome.class));
