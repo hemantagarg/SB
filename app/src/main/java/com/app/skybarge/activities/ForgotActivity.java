@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.app.skybarge.R;
+import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.aynctask.CommonAsyncTaskHashmap;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
@@ -20,6 +21,8 @@ import com.app.skybarge.utils.AppUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class ForgotActivity extends AppCompatActivity implements ApiResponse {
 
@@ -62,25 +65,27 @@ public class ForgotActivity extends AppCompatActivity implements ApiResponse {
 
 
     }
-
-
-    private void forgotpasswordUser() {
+    public void forgotpasswordUser() {
 
         if (AppUtils.isNetworkAvailable(mActivity)) {
 
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("email", edtEmail.getText().toString());
+            HashMap<String, String> hm = new HashMap<>();
+            // user_id,leave_type_id,leave_date_from,leave_date_to, latitude,longitude,location,remark
+            hm.put("email", edtEmail.getText().toString());
 
-                String url = JsonApiHelper.BASEURL + JsonApiHelper.FORGOT_PASSWORD;
-                new CommonAsyncTaskHashmap(1, mActivity, this).getqueryJsonbject(url, jsonObject, Request.Method.POST);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+            //  http://dev.stackmindz.com/sky/api/apply-leave
+            String url = JsonApiHelper.BASEURL + JsonApiHelper.FORGOT_PASSWORD;
+            new CommonAsyncTask(1, mActivity, this).getqueryJson(url, hm, Request.Method.POST);
+
+
         } else {
             Toast.makeText(mActivity, mActivity.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
+
     }
+
+
 
 
     private void initViews() {

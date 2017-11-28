@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.app.skybarge.R;
+import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.aynctask.CommonAsyncTaskHashmap;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
@@ -20,6 +21,8 @@ import com.app.skybarge.utils.AppUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import static com.google.android.gms.wearable.DataMap.TAG;
 
@@ -73,31 +76,29 @@ public class ChangePassword extends AppCompatActivity implements ApiResponse {
         });
     }
 
-    private void submitRequest() {
+
+    public void submitRequest() {
 
         if (AppUtils.isNetworkAvailable(mActivity)) {
 
-            if (AppUtils.isNetworkAvailable(mActivity)) {
+            HashMap<String, String> hm = new HashMap<>();
+            // user_id,leave_type_id,leave_date_from,leave_date_to, latitude,longitude,location,remark
+            hm.put("user_id", AppUtils.getUserId(mActivity));
+            hm.put("current_pwd", edtold_password.getText().toString());
+            hm.put("new_pwd", edt_newpassword.getText().toString());
+            hm.put("confirm_pwd", edtconfirmpassword.getText().toString());
 
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("user_id", AppUtils.getUserId(mActivity));
-                    jsonObject.put("current_pwd", edtold_password.getText().toString());
-                    jsonObject.put("new_pwd", edt_newpassword.getText().toString());
-                    jsonObject.put("confirm_pwd", edtconfirmpassword.getText().toString());
-
-                    String url = JsonApiHelper.BASEURL + JsonApiHelper.CHNAGE_PASSWORD;
-                    new CommonAsyncTaskHashmap(1, mActivity, this).getqueryJsonbject(url, jsonObject, Request.Method.POST);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(mActivity, mActivity.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
-            }
+            //  http://dev.stackmindz.com/sky/api/apply-leave
+            String url = JsonApiHelper.BASEURL + JsonApiHelper.CHNAGE_PASSWORD;
+            new CommonAsyncTask(1, mActivity, this).getqueryJson(url, hm, Request.Method.POST);
 
 
+        } else {
+            Toast.makeText(mActivity, mActivity.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
+
     }
+
 
     private void init() {
 
@@ -142,15 +143,16 @@ public class ChangePassword extends AppCompatActivity implements ApiResponse {
         try {
             if (method == 1) {
 
-                JSONObject commandResult = response.getJSONObject("commandResult");
+               // JSONObject commandResult = response.getJSONObject("commandResult");
 
-                if (commandResult.getString("success").equalsIgnoreCase("1")) {
+                if (response.getString("status").equalsIgnoreCase("1")) {
 
-                    Toast.makeText(mActivity, commandResult.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
                     mActivity.onBackPressed();
+                    finish();
                 } else {
 
-                    Toast.makeText(mActivity, commandResult.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {
