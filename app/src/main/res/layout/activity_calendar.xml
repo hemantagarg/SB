@@ -31,7 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp10"
-                android:background="@drawable/blue_line_bg">
+                android:background="@drawable/blue_line_bg"
+                android:visibility="gone">
 
                 <com.app.skybarge.utils.CustomTextView
                     android:id="@+id/mTvtoday_punched_in"
@@ -74,7 +75,7 @@
                     android:drawableRight="@drawable/downdrop"
                     android:maxLines="1"
                     android:padding="@dimen/dp15"
-                    android:text="Leaves this month"
+                    android:text="Attendance this month"
                     android:textColor="@color/textcolordark"
                     android:textSize="@dimen/text_size_14" />
 
@@ -90,7 +91,8 @@
                     android:padding="@dimen/dp15"
                     android:text="2"
                     android:textColor="@color/textcolorlight"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/rl_leaves"
@@ -107,7 +109,7 @@
                         android:layout_marginLeft="@dimen/dp10"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/dp15"
-                        android:text="Sick Leave"
+                        android:text="Present"
                         android:textColor="@color/textcolordark"
                         android:textSize="@dimen/text_size_14" />
 
@@ -134,7 +136,7 @@
                         android:layout_marginTop="@dimen/dp5"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/dp15"
-                        android:text="Urgent Leave"
+                        android:text="Absent"
                         android:textColor="@color/textcolordark"
                         android:textSize="@dimen/text_size_14" />
 
@@ -153,7 +155,66 @@
                         android:text="2"
                         android:textColor="@color/textcolorlight"
                         android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvLeaves1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mTvUrgentLeaves"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/dp15"
+                        android:text="Leaves"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvTotalleavesCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/mTvTotalUrgentleaves"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:layout_toRightOf="@+id/mTvLeaves1"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp15"
+                        android:text="2"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvHolidayLeaves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mTvLeaves1"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/dp15"
+                        android:text="Holiday"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvTotalHolidayleaves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/mTvTotalleavesCount"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:layout_toRightOf="@+id/mTvHolidayLeaves"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp15"
+                        android:text="2"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_14" />
                 </RelativeLayout>
+
 
             </RelativeLayout>
 
@@ -162,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp5"
                 android:layout_marginTop="@dimen/dp10"
-                android:background="@drawable/yellow_line_bg">
+                android:background="@drawable/blue_line_bg">
 
                 <com.app.skybarge.utils.CustomTextView
                     android:id="@+id/mTvlast_month_credited"

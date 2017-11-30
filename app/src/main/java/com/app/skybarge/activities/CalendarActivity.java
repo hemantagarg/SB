@@ -61,7 +61,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
     ArrayList<String> listSessionDate = new ArrayList<>();
     private RelativeLayout rl_leaves, rl_salary;
     private boolean isLeaveOpen = false, isSalryOpen = false;
-    private TextView mTvLeaves, mTvlast_month_credited;
+    private TextView mTvLeaves, mTvlast_month_credited, mTvTotalHolidayleaves, mTvTotalleavesCount, mTvTotalUrgentleaves, mTvTotalSickleaves;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +180,11 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
         rl_leaves = (RelativeLayout) findViewById(R.id.rl_leaves);
         rl_salary = (RelativeLayout) findViewById(R.id.rl_salary);
         mTvLeaves = (TextView) findViewById(R.id.mTvLeaves);
+        mTvTotalHolidayleaves = (TextView) findViewById(R.id.mTvTotalHolidayleaves);
+        mTvTotalleavesCount = (TextView) findViewById(R.id.mTvTotalleavesCount);
+        mTvTotalUrgentleaves = (TextView) findViewById(R.id.mTvTotalUrgentleaves);
+        mTvTotalSickleaves = (TextView) findViewById(R.id.mTvTotalSickleaves);
+
         mTvlast_month_credited = (TextView) findViewById(R.id.mTvlast_month_credited);
     }
 
@@ -207,8 +212,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
             if (method == 1) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     //      Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
-                    JSONObject Calender = response.getJSONObject("Calender");
-                    JSONObject data = Calender.getJSONObject("data");
+                    JSONObject data = response.getJSONObject("data");
                     JSONArray array = data.getJSONArray("calender");
                     arrayList.clear();
                     listSessionDate.clear();
@@ -226,7 +230,12 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
 
                         arrayList.add(itemList);
                     }
-                    //  mRecyclerView.setAdapter(adapterSelfAtendanceList);
+
+                    mTvTotalSickleaves.setText(data.getString("presentCount"));
+                    mTvTotalleavesCount.setText(data.getString("leaveCount"));
+                    mTvTotalUrgentleaves.setText(data.getString("absentCount"));
+                    mTvTotalHolidayleaves.setText(data.getString("holidayCount"));
+
                     if (arrayList.size() > 0) {
                         new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor());
                     }
@@ -257,14 +266,17 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
             absentDates = new ArrayList<>();
             holidayDates = new ArrayList<>();
             for (int i = 0; i < arrayList.size(); i++) {
-
+                /*1=>Present
+                2=>leave
+                3=>absent
+                4=>holiday  */
                 CalendarDay day = CalendarDay.from(fromDateToCalendar(arrayList.get(i).getDate()));
                 if (arrayList.get(i).getStatus().equalsIgnoreCase("1")) {
                     presentDates.add(day);
                 } else if (arrayList.get(i).getStatus().equalsIgnoreCase("2")) {
-                    absentDates.add(day);
-                } else if (arrayList.get(i).getStatus().equalsIgnoreCase("3")) {
                     leaveDates.add(day);
+                } else if (arrayList.get(i).getStatus().equalsIgnoreCase("3")) {
+                    absentDates.add(day);
                 } else if (arrayList.get(i).getStatus().equalsIgnoreCase("4")) {
                     holidayDates.add(day);
                 }
