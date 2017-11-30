@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Leaves"
+            android:text="Assets"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_title" />
 

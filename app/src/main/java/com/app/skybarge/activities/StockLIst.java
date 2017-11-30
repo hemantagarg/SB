@@ -24,12 +24,14 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.app.skybarge.R;
-import com.app.skybarge.adapters.AdapterHolidayList;
+import com.app.skybarge.adapters.AdapterLeaveList;
+import com.app.skybarge.adapters.AdapterStockList;
 import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.ConnectionDetector;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.interfaces.OnCustomItemClicListener;
+import com.app.skybarge.models.ModelStock;
 import com.app.skybarge.models.ModelStudent;
 import com.app.skybarge.utils.AppUtils;
 
@@ -42,13 +44,13 @@ import java.util.HashMap;
 /**
  * Created by admin on 06-01-2016.
  */
-public class HolidayList extends AppCompatActivity implements OnCustomItemClicListener, ApiResponse {
+public class StockLIst extends AppCompatActivity implements OnCustomItemClicListener, ApiResponse {
 
     Context context;
     RecyclerView mRecyclerView;
-    ModelStudent itemList;
-    AdapterHolidayList adapterLeaveList;
-    ArrayList<ModelStudent> arrayList;
+    ModelStock itemList;
+    AdapterStockList adapterStockList;
+    ArrayList<ModelStock> arrayList;
     ConnectionDetector cd;
     RelativeLayout rl_main_layout, rl_network;
     LinearLayoutManager layoutManager;
@@ -67,12 +69,12 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_holidaylist);
+        setContentView(R.layout.activity_leavelist);
 
         context = this;
         init();
         setListener();
-        HolidayList();
+        stockListRefresh();
     }
 
     private void init() {
@@ -120,7 +122,7 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                HolidayListRefresh();
+                stockListRefresh();
             }
         });
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -132,41 +134,15 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
 
     }
 
-    /**
-     * Open dialog for the apply leave
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 21 && resultCode == RESULT_OK) {
 
-            HolidayListRefresh();
-        }
-    }
-
-
-    public void HolidayList() {
+    public void stockListRefresh() {
 
         if (AppUtils.isNetworkAvailable(context)) {
 
-            HashMap<String, String> hm = new HashMap<>();
+
             // http://dev.stackmindz.com/sky/api/viewcalender
-            String url = JsonApiHelper.BASEURL + JsonApiHelper.HOLIDAY_LIST;
-            new CommonAsyncTask(1, context, this).getqueryJson(url, hm, Request.Method.GET);
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    public void HolidayListRefresh() {
-
-        if (AppUtils.isNetworkAvailable(context)) {
-
-            HashMap<String, String> hm = new HashMap<>();
-            // http://dev.stackmindz.com/sky/api/viewcalender
-            String url = JsonApiHelper.BASEURL + JsonApiHelper.HOLIDAY_LIST;
-            new CommonAsyncTask(1, context, this).getqueryJsonNoProgress(url, hm, Request.Method.GET);
+            String url = JsonApiHelper.BASEURL + JsonApiHelper.STOCK_LIST+"/"+AppUtils.getUserId(context);
+            new CommonAsyncTask(1, context, this).getqueryJsonNoProgress(url,null, Request.Method.GET);
         } else {
             Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
@@ -178,56 +154,7 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
 
     }
 
-/*
-    public void deleteLeave(int position) {
 
-        if (AppUtils.isNetworkAvailable(context)) {
-
-            HashMap<String, Object> hm = new HashMap<>();
-            hm.put("authkey", Constant.AUTHKEY);
-            hm.put("id", arrayList.get(position).getId());
-
-            String url = getResources().getString(R.string.base_url) + getResources().getString(R.string.delete_leave);
-            new CommonAsyncTaskHashmap(2, context, this).getquery(url, hm);
-
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
-        }
-    }
-*/
-
-    private void showDeleteConfirmation(final int position) {
-
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                context);
-
-        alertDialog.setTitle("DELETE !");
-
-        alertDialog.setMessage("Are you sure you want to Delete this Leave Request?");
-
-        alertDialog.setPositiveButton("YES",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        //    deleteLeave(position);
-
-                    }
-
-                });
-
-        alertDialog.setNegativeButton("NO",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.cancel();
-                    }
-                });
-
-        alertDialog.show();
-
-
-    }
 
 
     @Override
@@ -241,19 +168,20 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
                     for (int i = 0; i < array.length(); i++) {
 
                         JSONObject jo = array.getJSONObject(i);
-                        itemList = new ModelStudent();
+                        itemList = new ModelStock();
+
 
                         itemList.setId(jo.getString("id"));
-
                         itemList.setName(jo.getString("name"));
+                        itemList.setQuantity(jo.getString("quantity"));
+                        itemList.setIssue_date(jo.getString("issue_date"));
                         itemList.setRowType(1);
-                        itemList.setDate(jo.getString("date"));
 
 
                         arrayList.add(itemList);
                     }
-                    adapterLeaveList = new AdapterHolidayList(context, this, arrayList);
-                    mRecyclerView.setAdapter(adapterLeaveList);
+                    adapterStockList = new AdapterStockList(context, this, arrayList);
+                    mRecyclerView.setAdapter(adapterStockList);
                     if (swipe_refresh != null) {
                         swipe_refresh.setRefreshing(false);
                     }
@@ -262,31 +190,6 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
 
                     Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
                 }
-
-            } else if (method == 2) {
-                if (response.getString("response").equalsIgnoreCase("1")) {
-
-                    arrayList.remove(deletePosition);
-                    adapterLeaveList.notifyDataSetChanged();
-                    Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
-                }
-            } else if (method == 4) {
-                if (response.getString("response").equalsIgnoreCase("1")) {
-
-                    HolidayListRefresh();
-                    Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
-                }
-            } else if (method == 3) {
-                JSONArray array = response.getJSONArray("data");
-                leaveList.clear();
-                leaveListId.clear();
-                for (int i = 0; i < array.length(); i++) {
-
-                    JSONObject jo = array.getJSONObject(i);
-                    leaveListId.add(jo.getString("id"));
-                    leaveList.add(jo.getString("label"));
-                }
-                adapterLeaveTypes = new ArrayAdapter<String>(context, R.layout.row_spinner, R.id.textview, leaveList);
 
             }
         } catch (

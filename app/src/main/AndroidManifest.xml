@@ -37,6 +37,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.StockLIst"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.ForgotActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"

@@ -195,6 +195,12 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 Intent intent = new Intent(context, ChangePassword.class);
                 startActivity(intent);
             }
+        }); mTvLeavePolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, StockLIst.class);
+                startActivity(intent);
+            }
         });
         mTvLogout.setOnClickListener(new View.OnClickListener() {
             @Override

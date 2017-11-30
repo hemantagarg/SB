@@ -44,6 +44,7 @@
     <string name="holiday_list">Holiday List</string>
     <string name="new_leaves">New Leaves</string>
     <string name="leave_policy">Leave Policy</string>
+    <string name="assigned_stock">Assigned Asset</string>
     <string name="logout">Logout</string>
     <string name="type_of_leave">Type of Leave</string>
     <string name="from_date">From Date</string>

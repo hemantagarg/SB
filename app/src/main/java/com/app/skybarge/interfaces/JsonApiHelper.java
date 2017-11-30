@@ -19,6 +19,7 @@ public interface JsonApiHelper {
     String HOLIDAY_LIST = "holidaylist";
     String FORGOT_PASSWORD = "forget-password";
     String CHNAGE_PASSWORD = "change-password";
+    String STOCK_LIST = "getassets";
 
     String ATTENDANCEDETAILS = "getattendancedetail";
     String LEAVE_LIST = "newleavelist";
