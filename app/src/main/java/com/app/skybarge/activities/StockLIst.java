@@ -2,13 +2,11 @@ package com.app.skybarge.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.app.skybarge.R;
-import com.app.skybarge.adapters.AdapterLeaveList;
 import com.app.skybarge.adapters.AdapterStockList;
 import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.interfaces.ApiResponse;
@@ -32,14 +29,12 @@ import com.app.skybarge.interfaces.ConnectionDetector;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.interfaces.OnCustomItemClicListener;
 import com.app.skybarge.models.ModelStock;
-import com.app.skybarge.models.ModelStudent;
 import com.app.skybarge.utils.AppUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by admin on 06-01-2016.
@@ -141,8 +136,8 @@ public class StockLIst extends AppCompatActivity implements OnCustomItemClicList
 
 
             // http://dev.stackmindz.com/sky/api/viewcalender
-            String url = JsonApiHelper.BASEURL + JsonApiHelper.STOCK_LIST+"/"+AppUtils.getUserId(context);
-            new CommonAsyncTask(1, context, this).getqueryJsonNoProgress(url,null, Request.Method.GET);
+            String url = JsonApiHelper.BASEURL + JsonApiHelper.STOCK_LIST + "/" + AppUtils.getUserId(context);
+            new CommonAsyncTask(1, context, this).getqueryJsonNoProgress(url, null, Request.Method.GET);
         } else {
             Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
         }
@@ -153,8 +148,6 @@ public class StockLIst extends AppCompatActivity implements OnCustomItemClicList
     public void onItemClickListener(int position, int flag) {
 
     }
-
-
 
 
     @Override
@@ -185,12 +178,9 @@ public class StockLIst extends AppCompatActivity implements OnCustomItemClicList
                     if (swipe_refresh != null) {
                         swipe_refresh.setRefreshing(false);
                     }
-
                 } else {
-
-                    Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
-
             }
         } catch (
                 Exception e)
