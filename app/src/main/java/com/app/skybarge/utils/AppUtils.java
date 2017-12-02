@@ -191,6 +191,35 @@ public class AppUtils {
         return "";
     }
 
+    public static void setMasterData(Context context, String image) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putString("masterdata", image);
+
+            editor.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static String getMasterData(Context context) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            return preferences.getString("masterdata", "");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     /**
      * Function to show settings alert dialog On pressing Settings button will
      * lauch Settings Options
@@ -301,7 +330,7 @@ public class AppUtils {
         String ud_id = "";
         try {
             SharedPreferences sub_share = context.getSharedPreferences(AppConstant.MyPREFERENCES, Context.MODE_PRIVATE);
-            ud_id = sub_share.getString(AppConstant.REGID, "fdf");
+            ud_id = sub_share.getString(AppConstant.REGID, "");
         } catch (Exception e) {
             e.printStackTrace();
         }

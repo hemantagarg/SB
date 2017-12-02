@@ -41,6 +41,7 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="calendar">Calendar</string>
+    <string name="change_password">Change Password</string>
     <string name="holiday_list">Holiday List</string>
     <string name="new_leaves">New Leaves</string>
     <string name="leave_policy">Leave Policy</string>

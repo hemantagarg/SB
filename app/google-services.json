@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1092818516498",
+    "firebase_url": "https://sky-barge.firebaseio.com",
+    "project_id": "sky-barge",
+    "storage_bucket": "sky-barge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092818516498:android:98e32d24e96e0173",
+        "android_client_info": {
+          "package_name": "com.app.skybarge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092818516498-26h0fuus51qcim01auiekdfgvkhq9i7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxv7lNkNl0VcBiaeZo10GZOD9eDGukuIQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

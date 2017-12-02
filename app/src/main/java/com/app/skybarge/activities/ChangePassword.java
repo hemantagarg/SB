@@ -3,28 +3,23 @@ package com.app.skybarge.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.android.volley.Request;
 import com.app.skybarge.R;
 import com.app.skybarge.aynctask.CommonAsyncTask;
-import com.app.skybarge.aynctask.CommonAsyncTaskHashmap;
+import com.app.skybarge.iclasses.HeaderViewManager;
 import com.app.skybarge.interfaces.ApiResponse;
+import com.app.skybarge.interfaces.HeaderViewClickListener;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.utils.AppUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-
-import static com.google.android.gms.wearable.DataMap.TAG;
 
 /**
  * Created by hemanta on 02-08-2017.
@@ -38,16 +33,15 @@ public class ChangePassword extends AppCompatActivity implements ApiResponse {
     private Activity mActivity;
     private View view;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         mActivity = ChangePassword.this;
         init();
-      //  setListener();
-
-       btnSubmit.setOnClickListener(new View.OnClickListener() {
+        //  setListener();
+        manageHeaderView();
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -76,6 +70,38 @@ public class ChangePassword extends AppCompatActivity implements ApiResponse {
         });
     }
 
+    /*******************************************************************
+     * Function name - manageHeaderView
+     * Description - manage the initialization, visibility and click
+     * listener of view fields on Header view
+     *******************************************************************/
+    private void manageHeaderView() {
+        HeaderViewManager.getInstance().InitializeHeaderView(mActivity, null, manageHeaderClick());
+        HeaderViewManager.getInstance().setHeading(true, getResources().getString(R.string.change_password));
+        HeaderViewManager.getInstance().setLeftSideHeaderView(true, R.drawable.left_arrow);
+        HeaderViewManager.getInstance().setRightSideHeaderView(false, R.drawable.search);
+        HeaderViewManager.getInstance().setLogoView(false);
+        HeaderViewManager.getInstance().setProgressLoader(false, false);
+
+    }
+
+    /*****************************************************************************
+     * Function name - manageHeaderClick
+     * Description - manage the click on the left and right image view of header
+     *****************************************************************************/
+    private HeaderViewClickListener manageHeaderClick() {
+        return new HeaderViewClickListener() {
+            @Override
+            public void onClickOfHeaderLeftView() {
+                mActivity.onBackPressed();
+            }
+
+            @Override
+            public void onClickOfHeaderRightView() {
+                //   Toast.makeText(mActivity, "Coming Soon", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
 
     public void submitRequest() {
 
@@ -143,7 +169,7 @@ public class ChangePassword extends AppCompatActivity implements ApiResponse {
         try {
             if (method == 1) {
 
-               // JSONObject commandResult = response.getJSONObject("commandResult");
+                // JSONObject commandResult = response.getJSONObject("commandResult");
 
                 if (response.getString("status").equalsIgnoreCase("1")) {
 

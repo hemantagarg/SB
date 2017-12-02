@@ -115,8 +115,34 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mInstance = DashboardHome.this;
         init();
         setListner();
+        setData();
+
         getLeaveType();
         getattendancedata();
+    }
+
+    private void setData() {
+        try {
+            if (!AppUtils.getMasterData(context).equalsIgnoreCase("")) {
+                JSONObject data = new JSONObject(AppUtils.getMasterData(context));
+                AppUtils.setMasterData(context, data.toString());
+                mTvLeaveDays.setText(data.getString("leave_days"));
+                mTvAttendanceDays.setText(data.getString("present_days"));
+                mTvCredit_amount.setText(data.getString("salary"));
+                if (data.getString("today_punch_out").equalsIgnoreCase("")) {
+                    mTvtodayPunchedTime.setText(data.getString("today_punch_in"));
+                } else {
+                    mTvtodayPunchedTime.setText(data.getString("today_punch_in") + " - " + data.getString("today_punch_out"));
+                }
+                if (data.getString("yesterday_out_time").equalsIgnoreCase("")) {
+                    mTvyesterday_punched.setText(data.getString("yesterday_in_time"));
+                } else {
+                    mTvyesterday_punched.setText(data.getString("yesterday_in_time") + " - " + data.getString("yesterday_out_time"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setListner() {
@@ -195,7 +221,8 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 Intent intent = new Intent(context, ChangePassword.class);
                 startActivity(intent);
             }
-        }); mTvLeavePolicy.setOnClickListener(new View.OnClickListener() {
+        });
+        mTvLeavePolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, StockLIst.class);
@@ -816,6 +843,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             } else if (method == 4) {
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     JSONObject data = response.getJSONObject("data");
+                    AppUtils.setMasterData(context, data.toString());
                     mTvLeaveDays.setText(data.getString("leave_days"));
                     mTvAttendanceDays.setText(data.getString("present_days"));
                     mTvCredit_amount.setText(data.getString("salary"));

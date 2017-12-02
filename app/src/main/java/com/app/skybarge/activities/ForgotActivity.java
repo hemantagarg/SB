@@ -3,6 +3,7 @@ package com.app.skybarge.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,13 +14,10 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.app.skybarge.R;
 import com.app.skybarge.aynctask.CommonAsyncTask;
-import com.app.skybarge.aynctask.CommonAsyncTaskHashmap;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.utils.AppUtils;
 
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -32,6 +30,7 @@ public class ForgotActivity extends AppCompatActivity implements ApiResponse {
     private TextView createAccount, forgotPassword, signup;
     private ImageView image_facebook, image_twitter;
     String latitude = "0.0", longitude = "0.0";
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,12 @@ public class ForgotActivity extends AppCompatActivity implements ApiResponse {
     }
 
     private void setListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +70,7 @@ public class ForgotActivity extends AppCompatActivity implements ApiResponse {
 
 
     }
+
     public void forgotpasswordUser() {
 
         if (AppUtils.isNetworkAvailable(mActivity)) {
@@ -86,14 +92,14 @@ public class ForgotActivity extends AppCompatActivity implements ApiResponse {
     }
 
 
-
-
     private void initViews() {
 
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         btn_login = (Button) findViewById(R.id.btnSubmit);
-
-
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -108,7 +114,7 @@ public class ForgotActivity extends AppCompatActivity implements ApiResponse {
 
                 } else {
 
-                     Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {

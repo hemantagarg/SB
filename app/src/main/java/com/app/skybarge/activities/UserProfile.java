@@ -16,6 +16,7 @@ import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.utils.AppUtils;
 import com.app.skybarge.utils.CircleTransform;
+import com.app.skybarge.utils.DownLoadDocsFile;
 import com.app.skybarge.utils.DownLoadFile;
 import com.squareup.picasso.Picasso;
 
@@ -27,7 +28,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
 
     private Activity mActivity;
     private ImageView headerLeftImage, image_user, image_edit;
-    private TextView mTvJoiningLetter, mTvIdCard,mTvEmailId, mTvAccessno, mTvEmplyeeno, mTvDesignation, mTvName, mTvFatherName,
+    private TextView mTvJoiningLetter, mTvIdCard, mTvEmailId, mTvAccessno, mTvEmplyeeno, mTvDesignation, mTvName, mTvFatherName,
             mTvDOB, mTvDateAniversary, mTvDateJoining, mTvNoDependant, mTvMobileNumber, mTvDrivingLicense;
     private String idCardUrl = "";
     private String fileName = "";
@@ -55,7 +56,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
             @Override
             public void onClick(View v) {
                 if (!idCardUrl.equalsIgnoreCase("")) {
-                    Intent intent = new Intent(mActivity, DownLoadFile.class);
+                    Intent intent = new Intent(mActivity, DownLoadDocsFile.class);
                     intent.putExtra(DownLoadFile.FILENAME, fileName);
                     intent.putExtra(DownLoadFile.URL,
                             idCardUrl);
@@ -125,6 +126,8 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
                     mTvAccessno.setText(data.getString("access_card"));
                     mTvDateAniversary.setText(data.getString("birth_date"));
                     mTvEmailId.setText(data.getString("email"));
+                    idCardUrl = data.getString("idcard");
+                    fileName = data.getString("filetype");
 
                     if (data.getString("access_card").equalsIgnoreCase("")) {
                         mTvAccessno.setText("Not Assigned Yet!");
