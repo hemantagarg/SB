@@ -1,6 +1,7 @@
 package com.app.skybarge.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
 import com.app.skybarge.utils.AppUtils;
 import com.app.skybarge.utils.CircleTransform;
+import com.app.skybarge.utils.DownLoadFile;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -27,6 +29,8 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
     private ImageView headerLeftImage, image_user, image_edit;
     private TextView mTvJoiningLetter, mTvIdCard, mTvAccessno, mTvEmplyeeno, mTvDesignation, mTvName, mTvFatherName,
             mTvDOB, mTvDateAniversary, mTvDateJoining, mTvNoDependant, mTvMobileNumber, mTvDrivingLicense;
+    private String idCardUrl = "";
+    private String fileName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,23 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        mTvIdCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!idCardUrl.equalsIgnoreCase("")) {
+                    Intent intent = new Intent(mActivity, DownLoadFile.class);
+                    intent.putExtra(DownLoadFile.FILENAME, fileName);
+                    intent.putExtra(DownLoadFile.URL,
+                            idCardUrl);
+                    mActivity.startService(intent);
+
+                    Toast.makeText(mActivity, "Your file download is in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mActivity, "Id Card not available", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -103,7 +124,6 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
 
                     mTvAccessno.setText(data.getString("employee_no"));
                     mTvDateAniversary.setText(data.getString("birth_date"));
-
 
                     if (!data.getString("profile_pic_url").equalsIgnoreCase("")) {
                         Picasso.with(mActivity).load(data.getString("profile_pic_url")).placeholder(R.drawable.profile_icon).transform(new CircleTransform()).into(image_user);

@@ -23,4 +23,5 @@ public class AppConstant {
     public static final String PUNCHOUT_ID= "punchOut_id";
 
 
+    public static final String SKYBARGE_PATH = "/SkyBarge/";
 }
