@@ -163,13 +163,11 @@ public class StockLIst extends AppCompatActivity implements OnCustomItemClicList
                         JSONObject jo = array.getJSONObject(i);
                         itemList = new ModelStock();
 
-
                         itemList.setId(jo.getString("id"));
                         itemList.setName(jo.getString("name"));
                         itemList.setQuantity(jo.getString("quantity"));
                         itemList.setIssue_date(jo.getString("issue_date"));
                         itemList.setRowType(1);
-
 
                         arrayList.add(itemList);
                     }
@@ -182,13 +180,9 @@ public class StockLIst extends AppCompatActivity implements OnCustomItemClicList
                     Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
             }
-        } catch (
-                Exception e)
-
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

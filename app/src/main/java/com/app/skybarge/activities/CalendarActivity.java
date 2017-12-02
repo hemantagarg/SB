@@ -241,6 +241,10 @@ public class CalendarActivity extends AppCompatActivity implements OnDateSelecte
                     }
 
                 } else {
+                    mTvTotalSickleaves.setText("0");
+                    mTvTotalleavesCount.setText("0");
+                    mTvTotalUrgentleaves.setText("0");
+                    mTvTotalHolidayleaves.setText("0");
                     Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
             }
