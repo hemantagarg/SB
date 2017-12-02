@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkyBarge</string>
+    <string name="app_name">Sky-Barge</string>
 
     <string name="message_network_problem">Please check your internet connectivity.</string>
     <string name="message_problem">Opps! Something went wrong, please try again.</string>
@@ -63,5 +63,6 @@
     <string name="mobile_number">Mobile Number</string>
     <string name="no_of_dependent">No. of dependent</string>
     <string name="driving_license">Driving License</string>
+    <string name="email_id">Email-ID</string>
 
 </resources>

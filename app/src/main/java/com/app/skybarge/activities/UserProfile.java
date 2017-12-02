@@ -25,7 +25,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
 
     private Activity mActivity;
     private ImageView headerLeftImage, image_user, image_edit;
-    private TextView mTvJoiningLetter, mTvIdCard, mTvAccessno, mTvEmplyeeno, mTvDesignation, mTvName, mTvFatherName,
+    private TextView mTvJoiningLetter, mTvIdCard,mTvEmailId, mTvAccessno, mTvEmplyeeno, mTvDesignation, mTvName, mTvFatherName,
             mTvDOB, mTvDateAniversary, mTvDateJoining, mTvNoDependant, mTvMobileNumber, mTvDrivingLicense;
 
     @Override
@@ -56,6 +56,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
         mTvIdCard = (TextView) findViewById(R.id.mTvIdCard);
         mTvAccessno = (TextView) findViewById(R.id.mTvAccessno);
         mTvEmplyeeno = (TextView) findViewById(R.id.mTvEmplyeeno);
+        mTvEmailId = (TextView) findViewById(R.id.mTvEmailId);
         mTvDesignation = (TextView) findViewById(R.id.mTvDesignation);
         mTvName = (TextView) findViewById(R.id.mTvName);
         mTvFatherName = (TextView) findViewById(R.id.mTvFatherName);
@@ -96,49 +97,21 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
                     mTvFatherName.setText(data.getString("father_name"));
                     mTvDateJoining.setText(data.getString("joining_date"));
                     mTvDOB.setText(data.getString("birth_date"));
-                    mTvEmplyeeno.setText(data.getString("employee_no"));
+                    mTvJoiningLetter.setText(data.getString("employee_no"));
                     mTvDrivingLicense.setText(data.getString("licence_no"));
                     mTvMobileNumber.setText(data.getString("mobile"));
                     mTvNoDependant.setText(data.getString("spouse_name"));
-
-                    mTvAccessno.setText(data.getString("employee_no"));
+                    mTvAccessno.setText(data.getString("access_card"));
                     mTvDateAniversary.setText(data.getString("birth_date"));
+                    mTvEmailId.setText(data.getString("email"));
 
-
+                    if (data.getString("access_card").equalsIgnoreCase("")) {
+                        mTvAccessno.setText("Not Assigned Yet!");
+                    }
                     if (!data.getString("profile_pic_url").equalsIgnoreCase("")) {
                         Picasso.with(mActivity).load(data.getString("profile_pic_url")).placeholder(R.drawable.profile_icon).transform(new CircleTransform()).into(image_user);
                     }
-                  /*  "branch":"Jaipur",
-                            "department":"Air Exports",
-                            "subdepartment":"Sales",
-                            "designation":"C.E.O",
-                            "employee_no":"SBF-028",
-                            "name":"Amit kumar",
-                            "email":"amit@skybarge.com",
-                            "personal_email":"amitg1370@gmail.com",
-                            "mobile":"8285416696",
-                            "father_name":"RAMKISHAN kumar",
-                            "spouse_name":"as",
-                            "joining_date":"21-09-2017",
-                            "birth_date":"04-01-2017",
-                            "address_local":"dvvxcv",
-                            "address_permanent":"xcvxvxcv",
-                            "salary":"10000",
-                            "blood_group":"A+",
-                            "weight":"79",
-                            "height":"175",
-                            "licence_no":"1225551200",
-                            "pancard_no":"",
-                            "adhaar_no":"6415616132310",
-                            "device_type":"android",
-                            "device_id":"5664444444466545",
-                            "device_token":"fdfgdfgdfgdfgdf",
-                            "identification_mark":"asdasdass",
-                            "profile_pic_url":"",
-                            "pancard_url":"",
-                            "adhaarcard_url":"",
-                            "licence_url":"http:\/\/dev.stackmindz.com\/sky\/upload\/doc\/894536906jitupscadmitcard.pdf",
-                            "resume_url":""*/
+
                 } else {
                     Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }

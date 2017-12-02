@@ -89,8 +89,8 @@
                     android:layout_marginRight="@dimen/dp5"
                     android:layout_weight="1"
                     android:background="@drawable/white_corners"
-                    android:drawableRight="@drawable/circle_down_arrow"
                     android:padding="@dimen/dp10"
+                    android:gravity="center"
                     android:text="@string/joining_letter"
                     android:textColor="@color/textcolordark"
                     android:textSize="@dimen/text_size_14" />
@@ -118,11 +118,40 @@
                 android:background="@drawable/white_corners"
                 android:orientation="vertical"
                 android:padding="@dimen/dp10">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp5"
+                    android:weightSum="2">
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp5"
+                        android:text="@string/name"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_13" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:padding="@dimen/dp5"
+                        android:text="Mr mark Lee"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_13" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp5"
+
                     android:weightSum="2">
 
                     <com.app.skybarge.utils.CustomTextView
@@ -152,6 +181,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp5"
+                    android:visibility="gone"
                     android:weightSum="2">
 
                     <com.app.skybarge.utils.CustomTextView
@@ -207,35 +237,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp5"
-                    android:weightSum="2">
 
-                    <com.app.skybarge.utils.CustomTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/dp5"
-                        android:text="@string/name"
-                        android:textColor="@color/textcolorlight"
-                        android:textSize="@dimen/text_size_13" />
-
-                    <com.app.skybarge.utils.CustomTextView
-                        android:id="@+id/mTvName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:padding="@dimen/dp5"
-                        android:text="Mr mark Lee"
-                        android:textColor="@color/textcolordark"
-                        android:textSize="@dimen/text_size_13" />
-
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -266,7 +268,62 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp5"
+                    android:weightSum="2">
 
+                    <com.app.skybarge.utils.CustomTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp5"
+                        android:text="@string/mobile_number"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_13" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvMobileNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:padding="@dimen/dp5"
+                        android:text="9464473546"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_13" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp5"
+                    android:weightSum="2">
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/dp5"
+                        android:text="@string/email_id"
+                        android:textColor="@color/textcolorlight"
+                        android:textSize="@dimen/text_size_13" />
+
+                    <com.app.skybarge.utils.CustomTextView
+                        android:id="@+id/mTvEmailId"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:padding="@dimen/dp5"
+                        android:text="9464473546"
+                        android:textColor="@color/textcolordark"
+                        android:textSize="@dimen/text_size_13" />
+
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -385,34 +442,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp5"
-                    android:weightSum="2">
 
-                    <com.app.skybarge.utils.CustomTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/dp5"
-                        android:text="@string/mobile_number"
-                        android:textColor="@color/textcolorlight"
-                        android:textSize="@dimen/text_size_13" />
-
-                    <com.app.skybarge.utils.CustomTextView
-                        android:id="@+id/mTvMobileNumber"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|right"
-                        android:padding="@dimen/dp5"
-                        android:text="9464473546"
-                        android:textColor="@color/textcolordark"
-                        android:textSize="@dimen/text_size_13" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
