@@ -8,7 +8,7 @@ android {
         disable 'MissingTranslation'
     }
     defaultConfig {
-        applicationId "com.app.skybardge"
+        applicationId "com.app.skybarge"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 2
