@@ -118,8 +118,9 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         setData();
 
         getLeaveType();
-        getattendancedata();
+
     }
+
 
     private void setData() {
         try {
@@ -368,6 +369,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         } else {
             showSettingsAlert();
         }
+        getattendancedata();
     }
 
     /**
@@ -858,7 +860,17 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                     } else {
                         mTvyesterday_punched.setText(data.getString("yesterday_in_time") + " - " + data.getString("yesterday_out_time"));
                     }
-
+                    AppUtils.setPunchInId(context, data.getString("punchIn_id"));
+                    if (data.getString("punch_out_status").equalsIgnoreCase("1")) {
+                        AppUtils.setPunchInId(context, "");
+                    }
+                    if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
+                        punchin_switch.setChecked(false);
+                        mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_in));
+                    } else {
+                        punchin_switch.setChecked(true);
+                        mTvSwipe.setText(getResources().getString(R.string.swipe_to_punch_out));
+                    }
                 } else {
                     Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
