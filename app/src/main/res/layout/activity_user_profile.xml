@@ -58,6 +58,7 @@
             android:id="@+id/image_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_alignBottom="@+id/image_user"
             android:layout_alignRight="@+id/image_user"
             android:src="@drawable/edit_yellow" />

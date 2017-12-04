@@ -127,7 +127,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
                     mTvDateAniversary.setText(data.getString("birth_date"));
                     mTvEmailId.setText(data.getString("email"));
                     idCardUrl = data.getString("idcard");
-                    fileName = data.getString("filetype");
+                   // fileName = data.getString("filetype");
 
                     if (data.getString("access_card").equalsIgnoreCase("")) {
                         mTvAccessno.setText("Not Assigned Yet!");

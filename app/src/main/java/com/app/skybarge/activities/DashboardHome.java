@@ -845,6 +845,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                     JSONObject data = response.getJSONObject("data");
                     AppUtils.setMasterData(context, data.toString());
                     mTvLeaveDays.setText(data.getString("leave_days"));
+
                     mTvAttendanceDays.setText(data.getString("present_days"));
                     mTvCredit_amount.setText(data.getString("salary"));
                     if (data.getString("today_punch_out").equalsIgnoreCase("")) {
