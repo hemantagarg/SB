@@ -6,8 +6,9 @@ package com.app.skybarge.interfaces;
 
 public interface JsonApiHelper {
 
-    String BASEURL = JsonApiHelper.BASEURL_LIVE;
-    String BASEURL_TESTING = "http://dev.stackmindz.com/erp/api/";
+    String BASEURL = JsonApiHelper.BASEURL_TESTING;
+
+    String BASEURL_TESTING = "https://skybarge.in/dev/erp/api/";
     String BASEURL_LIVE = "http://skybarge.in/erp/api/";
     String LOGIN = "login";
     String GET_PROFILE = "getprofile";

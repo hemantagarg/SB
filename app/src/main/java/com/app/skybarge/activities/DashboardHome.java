@@ -76,7 +76,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private View main_view;
     private Button btn_need_leave;
     private SwipeButton swipeButton;
-    private TextView mTvHome, mTvLeaveDays, mTvchangepassword, mTvAttendanceDays, mTvyesterday_punched, mTvCredit_amount, mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
+    private TextView mTvHome, mTvLeaveDays, mTvchangepassword,mTvholiday, mTvAttendanceDays, mTvyesterday_punched, mTvCredit_amount, mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
     private String TAG = DashboardHome.class.getSimpleName();
     private int PERMISSION_ALL = 1;
     private String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -576,6 +576,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mTvNewLeaves = (TextView) findViewById(R.id.mTvNewLeaves);
         mTvLeavePolicy = (TextView) findViewById(R.id.mTvLeavePolicy);
         mTvSwipe = (TextView) findViewById(R.id.mTvSwipe);
+        mTvholiday = (TextView) findViewById(R.id.mTvholiday);
         mRlSwipePunchin = (RelativeLayout) findViewById(R.id.mRlSwipePunchin);
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
         swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
@@ -834,7 +835,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                             "salary":"0"*/
                     getattendancedata();
                 } else {
-                    showSuccessMessageDialog("Warning", "You can Punch In and Punch out only once a day.");
+                    showSuccessMessageDialog("Alert!", response.getString("message"));
                     // Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                     if (punchin_switch.isChecked()) {
                         punchin_switch.setChecked(false);
@@ -847,7 +848,17 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                     JSONObject data = response.getJSONObject("data");
                     AppUtils.setMasterData(context, data.toString());
                     mTvLeaveDays.setText(data.getString("leave_days"));
+if (data.getString("is_holiday").equalsIgnoreCase("1")){
 
+    mTvSwipe.setVisibility(View.INVISIBLE);
+    punchin_switch.setVisibility(View.INVISIBLE);
+    mTvholiday.setVisibility(View.VISIBLE);
+    mTvholiday.setText("Enjoy Holiday!");
+}else {
+    mTvSwipe.setVisibility(View.VISIBLE);
+    punchin_switch.setVisibility(View.VISIBLE);
+    mTvholiday.setVisibility(View.INVISIBLE);
+}
                     mTvAttendanceDays.setText(data.getString("present_days"));
                     mTvCredit_amount.setText(data.getString("salary"));
                     if (data.getString("today_punch_out").equalsIgnoreCase("")) {

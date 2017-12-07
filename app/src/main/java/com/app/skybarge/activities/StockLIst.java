@@ -64,7 +64,7 @@ public class StockLIst extends AppCompatActivity implements OnCustomItemClicList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_leavelist);
+        setContentView(R.layout.activity_stocklist);
 
         context = this;
         init();

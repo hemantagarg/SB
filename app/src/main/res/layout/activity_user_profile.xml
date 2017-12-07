@@ -92,7 +92,6 @@
                     android:background="@drawable/white_corners"
                     android:padding="@dimen/dp10"
                     android:gravity="center"
-                    android:text="@string/joining_letter"
                     android:textColor="@color/textcolordark"
                     android:textSize="@dimen/text_size_14" />
 
@@ -103,9 +102,10 @@
                     android:layout_marginLeft="@dimen/dp5"
                     android:layout_weight="1"
                     android:background="@drawable/white_corners"
-                    android:drawableRight="@drawable/circle_down_arrow"
                     android:padding="@dimen/dp10"
-                    android:text="@string/id_card"
+                    android:gravity="center"
+android:clickable="false"
+                    android:text=""
                     android:textColor="@color/textcolordark"
                     android:textSize="@dimen/text_size_14" />
 
@@ -273,6 +273,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp5"
+                    android:visibility="gone"
                     android:weightSum="2">
 
                     <com.app.skybarge.utils.CustomTextView
