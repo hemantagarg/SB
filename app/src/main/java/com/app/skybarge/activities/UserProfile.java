@@ -124,7 +124,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
                     mTvIdCard.setText(data.getString("mobile"));
                     mTvNoDependant.setText(data.getString("spouse_name"));
                     mTvAccessno.setText(data.getString("access_card"));
-                    mTvDateAniversary.setText(data.getString("birth_date"));
+                    mTvDateAniversary.setText(data.getString("anniversary_date"));
                     mTvEmailId.setText(data.getString("email"));
                     idCardUrl = data.getString("idcard");
                    // fileName = data.getString("filetype");

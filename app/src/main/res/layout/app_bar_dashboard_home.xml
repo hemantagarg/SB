@@ -44,7 +44,9 @@
                     android:drawablePadding="@dimen/dp10"
                     android:gravity="center_vertical"
                     android:padding="@dimen/dp15"
-                    android:text="Good Morning."
+                    android:text="Good Morning"
+                    android:textSize="@dimen/dp12"
+                    android:textStyle="bold"
                     android:textColor="@color/black" />
 
                 <View

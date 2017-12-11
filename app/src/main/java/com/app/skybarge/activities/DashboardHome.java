@@ -248,13 +248,13 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
         if (timeOfDay >= 0 && timeOfDay < 12) {
-            mTvGm.setText("Good Morning");
+            mTvGm.setText("GOOD MORNING"+" "+AppUtils.getUserName(context));
         } else if (timeOfDay >= 12 && timeOfDay < 16) {
-            mTvGm.setText("Good afternoon");
+            mTvGm.setText("GOOD AFTERNOON"+" "+AppUtils.getUserName(context));
         } else if (timeOfDay >= 16 && timeOfDay < 21) {
-            mTvGm.setText("Good evening");
+            mTvGm.setText("GOOD EVENING"+" "+AppUtils.getUserName(context));
         } else if (timeOfDay >= 21) {
-            mTvGm.setText("Good night");
+            mTvGm.setText("GOOD NIGHT"+" "+AppUtils.getUserName(context));
         }
 
         SwipeButtonCustomItems swipeButtonSettings = new SwipeButtonCustomItems() {
@@ -853,7 +853,7 @@ if (data.getString("is_holiday").equalsIgnoreCase("1")){
     mTvSwipe.setVisibility(View.INVISIBLE);
     punchin_switch.setVisibility(View.INVISIBLE);
     mTvholiday.setVisibility(View.VISIBLE);
-    mTvholiday.setText("Enjoy Holiday!");
+    mTvholiday.setText("Happy Holiday!");
 }else {
     mTvSwipe.setVisibility(View.VISIBLE);
     punchin_switch.setVisibility(View.VISIBLE);

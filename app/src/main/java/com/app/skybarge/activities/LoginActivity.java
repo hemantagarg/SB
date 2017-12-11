@@ -44,12 +44,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponse {
             @Override
             public void onClick(View view) {
                 if (!edtEmail.getText().toString().equalsIgnoreCase("") && !edtPassword.getText().toString().equalsIgnoreCase("")) {
-                    if (AppUtils.isEmailValid(edtEmail.getText().toString())) {
-                        loginUser();
-                    } else {
-                        edtEmail.setError(getString(R.string.enter_valid_emailid));
-                        edtEmail.requestFocus();
-                    }
+                    loginUser();
                 } else {
                     if (edtEmail.getText().toString().equalsIgnoreCase("")) {
                         edtEmail.setError(getString(R.string.enter_email));
@@ -111,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements ApiResponse {
                     JSONObject data = response.getJSONObject("users");
 
                     AppUtils.setUserId(mActivity, data.getString("id"));
-                    AppUtils.setData(mActivity, data.getString("name"), AppConstant.USER_NAME);
+                    AppUtils.setUserName(mActivity,data.getString("name"));
                     AppUtils.setData(mActivity, data.getString("email"), AppConstant.USER_EMAIL);
                     AppUtils.setData(mActivity, data.getString("mobile"), AppConstant.USER_MOBILE);
                     AppUtils.setAuthKey(mActivity, data.getString("auth_key"));

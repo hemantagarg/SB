@@ -38,8 +38,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/text_date"
                 android:padding="@dimen/dp10"
+android:src="@drawable/deete"
+                android:visibility="gone"
                 android:scaleType="fitXY"
-                android:visibility="gone" />
+                />
 
             <TextView
                 android:id="@+id/text_feedbak_type"
@@ -117,7 +119,7 @@
                 android:text="asss"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_15"
-                android:visibility="gone" />
+                />
 
         </RelativeLayout>
     </RelativeLayout>

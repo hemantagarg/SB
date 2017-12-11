@@ -6,10 +6,10 @@ package com.app.skybarge.interfaces;
 
 public interface JsonApiHelper {
 
-    String BASEURL = JsonApiHelper.BASEURL_TESTING;
+    String BASEURL = JsonApiHelper.BASEURL_LIVE;
 
     String BASEURL_TESTING = "https://skybarge.in/dev/erp/api/";
-    String BASEURL_LIVE = "http://skybarge.in/erp/api/";
+    String BASEURL_LIVE = "https://skybarge.in/erp/api/";
     String LOGIN = "login";
     String GET_PROFILE = "getprofile";
     String ATTANDANCE_PUNCHIN = "attendancepunchin";
@@ -21,6 +21,7 @@ public interface JsonApiHelper {
     String FORGOT_PASSWORD = "forget-password";
     String CHNAGE_PASSWORD = "change-password";
     String STOCK_LIST = "getassets";
+    String delete_leave = "deleteLeave";
 
     String ATTENDANCEDETAILS = "getattendancedetail";
     String LEAVE_LIST = "newleavelist";

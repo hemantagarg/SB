@@ -77,7 +77,7 @@ public class AdapterLeaveList extends RecyclerView.Adapter<RecyclerView.ViewHold
             ModelStudent m1 = (ModelStudent) detail.get(position);
 
             ((CustomViewHolder) holder).text_dapartment_label.setText(m1.getStart_date() + " - " + m1.getEnd_date());
-            ((CustomViewHolder) holder).text_feedbak_type.setText(m1.getName());
+            ((CustomViewHolder) holder).text_feedbak_type.setText("Apply For"+" "+m1.getName());
             ((CustomViewHolder) holder).text_date.setText("Apply date : " + m1.getApply_date());
             ((CustomViewHolder) holder).text_message.setText("Remark : " + m1.getReason());
 
@@ -88,12 +88,19 @@ public class AdapterLeaveList extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            if (m1.getIs_status().equalsIgnoreCase("1")) {
-                //((CustomViewHolder) holder).image_delete.setVisibility(View.GONE);
-                ((CustomViewHolder) holder).text_status.setBackgroundColor(Color.parseColor("#32CD32"));
+            if (m1.getIs_status().equalsIgnoreCase("0")) {
+                ((CustomViewHolder) holder).image_delete.setVisibility(View.VISIBLE);
+               // ((CustomViewHolder) holder).text_status.setBackgroundColor(Color.parseColor("#32CD32"));
             } else {
-                //    ((CustomViewHolder) holder).image_delete.setVisibility(View.VISIBLE);
-                ((CustomViewHolder) holder).text_status.setBackgroundColor(Color.parseColor("#e82558"));
+                   ((CustomViewHolder) holder).image_delete.setVisibility(View.GONE);
+                //((CustomViewHolder) holder).text_status.setBackgroundColor(Color.parseColor("#e82558"));
+            }if (m1.getReason().equalsIgnoreCase("")) {
+                ((CustomViewHolder) holder).text_messageteacher.setVisibility(View.GONE);
+               // ((CustomViewHolder) holder).text_status.setBackgroundColor(Color.parseColor("#32CD32"));
+            } else {
+                ((CustomViewHolder) holder).text_messageteacher.setVisibility(View.VISIBLE);
+                ((CustomViewHolder) holder).text_messageteacher.setText(m1.getReason());
+
             }
             ((CustomViewHolder) holder).text_status.setText(m1.getStatus());
 
