@@ -172,15 +172,10 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
         }
     }
 
-
     @Override
     public void onItemClickListener(int position, int flag) {
 
     }
-
-
-
-
 
 
     @Override
@@ -201,6 +196,7 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
                         itemList.setName(jo.getString("name"));
                         itemList.setRowType(1);
                         itemList.setDate(jo.getString("date"));
+                        itemList.setDay_name(jo.getString("day_name"));
 
 
                         arrayList.add(itemList);

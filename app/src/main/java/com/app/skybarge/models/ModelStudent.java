@@ -6,7 +6,21 @@ package com.app.skybarge.models;
 
 public class ModelStudent {
 
-    private String id, name, date, status, remark;
+    private String id;
+    private String name;
+    private String date;
+    private String status;
+    private String remark;
+
+    public String getDay_name() {
+        return day_name;
+    }
+
+    public void setDay_name(String day_name) {
+        this.day_name = day_name;
+    }
+
+    private String day_name;
     private int rowType;
     private String start_date, end_date, is_status, reason, apply_date;
 

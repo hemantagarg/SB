@@ -277,7 +277,37 @@ public class AppUtils {
             e.printStackTrace();
         }
         return "";
-    }public static void setUserName(Context context, String image) {
+    }
+
+    public static void setUserPassword(Context context, String image) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putString("is_password", image);
+
+            editor.commit();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static String getUserPassword(Context context) {
+
+        try {
+            SharedPreferences preferences = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            return preferences.getString("is_password", "");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "";
+    }
+    public static void setUserName(Context context, String image) {
 
         try {
             SharedPreferences preferences = PreferenceManager

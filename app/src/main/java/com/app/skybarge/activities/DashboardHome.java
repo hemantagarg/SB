@@ -847,18 +847,30 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                 if (response.getString("status").equalsIgnoreCase("1")) {
                     JSONObject data = response.getJSONObject("data");
                     AppUtils.setMasterData(context, data.toString());
-                    mTvLeaveDays.setText(data.getString("leave_days"));
-if (data.getString("is_holiday").equalsIgnoreCase("1")){
+                    AppUtils.setUserPassword(context,data.getString("is_password"));
 
+/*if (AppUtils.getUserPassword(context).equalsIgnoreCase(data.getString("is_password"))){
+
+}else {
+
+    AppUtils.setUserId(context, "");
+    Intent intent = new Intent(context, LoginActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+    finish();
+}*/
+
+                    mTvLeaveDays.setText(data.getString("leave_days"));
+   if (data.getString("is_holiday").equalsIgnoreCase("1")){
     mTvSwipe.setVisibility(View.INVISIBLE);
     punchin_switch.setVisibility(View.INVISIBLE);
     mTvholiday.setVisibility(View.VISIBLE);
     mTvholiday.setText("Happy Holiday!");
-}else {
+   }else {
     mTvSwipe.setVisibility(View.VISIBLE);
     punchin_switch.setVisibility(View.VISIBLE);
     mTvholiday.setVisibility(View.INVISIBLE);
-}
+   }
                     mTvAttendanceDays.setText(data.getString("present_days"));
                     mTvCredit_amount.setText(data.getString("salary"));
                     if (data.getString("today_punch_out").equalsIgnoreCase("")) {
