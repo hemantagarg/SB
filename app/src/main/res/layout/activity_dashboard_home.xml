@@ -121,7 +121,7 @@
                     android:drawablePadding="@dimen/dp30"
                     android:gravity="center_vertical"
                     android:padding="@dimen/dp10"
-                    android:text=" Assests"
+                    android:text=" Assets"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15"
                     android:textStyle="bold" />

@@ -52,7 +52,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
             }
         });
 
-        mTvIdCard.setOnClickListener(new View.OnClickListener() {
+      /*  mTvIdCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!idCardUrl.equalsIgnoreCase("")) {
@@ -67,7 +67,7 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
                     Toast.makeText(mActivity, "Id Card not available", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
     }
 
     private void init() {
@@ -121,10 +121,10 @@ public class UserProfile extends AppCompatActivity implements ApiResponse {
                     mTvDOB.setText(data.getString("birth_date"));
                     mTvJoiningLetter.setText(data.getString("employee_no"));
                     mTvDrivingLicense.setText(data.getString("licence_no"));
-                    mTvMobileNumber.setText(data.getString("mobile"));
+                    mTvIdCard.setText(data.getString("mobile"));
                     mTvNoDependant.setText(data.getString("spouse_name"));
                     mTvAccessno.setText(data.getString("access_card"));
-                    mTvDateAniversary.setText(data.getString("birth_date"));
+                    mTvDateAniversary.setText(data.getString("anniversary_date"));
                     mTvEmailId.setText(data.getString("email"));
                     idCardUrl = data.getString("idcard");
                    // fileName = data.getString("filetype");

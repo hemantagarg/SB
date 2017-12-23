@@ -172,60 +172,8 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
         }
     }
 
-
     @Override
     public void onItemClickListener(int position, int flag) {
-
-    }
-
-/*
-    public void deleteLeave(int position) {
-
-        if (AppUtils.isNetworkAvailable(context)) {
-
-            HashMap<String, Object> hm = new HashMap<>();
-            hm.put("authkey", Constant.AUTHKEY);
-            hm.put("id", arrayList.get(position).getId());
-
-            String url = getResources().getString(R.string.base_url) + getResources().getString(R.string.delete_leave);
-            new CommonAsyncTaskHashmap(2, context, this).getquery(url, hm);
-
-        } else {
-            Toast.makeText(context, context.getResources().getString(R.string.message_network_problem), Toast.LENGTH_SHORT).show();
-        }
-    }
-*/
-
-    private void showDeleteConfirmation(final int position) {
-
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                context);
-
-        alertDialog.setTitle("DELETE !");
-
-        alertDialog.setMessage("Are you sure you want to Delete this Leave Request?");
-
-        alertDialog.setPositiveButton("YES",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        //    deleteLeave(position);
-
-                    }
-
-                });
-
-        alertDialog.setNegativeButton("NO",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.cancel();
-                    }
-                });
-
-        alertDialog.show();
-
 
     }
 
@@ -248,6 +196,7 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
                         itemList.setName(jo.getString("name"));
                         itemList.setRowType(1);
                         itemList.setDate(jo.getString("date"));
+                        itemList.setDay_name(jo.getString("day_name"));
 
 
                         arrayList.add(itemList);
@@ -260,33 +209,8 @@ public class HolidayList extends AppCompatActivity implements OnCustomItemClicLi
 
                 } else {
 
-                    Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
-
-            } else if (method == 2) {
-                if (response.getString("response").equalsIgnoreCase("1")) {
-
-                    arrayList.remove(deletePosition);
-                    adapterLeaveList.notifyDataSetChanged();
-                    Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
-                }
-            } else if (method == 4) {
-                if (response.getString("response").equalsIgnoreCase("1")) {
-
-                    HolidayListRefresh();
-                    Toast.makeText(context, response.getString("msg"), Toast.LENGTH_SHORT).show();
-                }
-            } else if (method == 3) {
-                JSONArray array = response.getJSONArray("data");
-                leaveList.clear();
-                leaveListId.clear();
-                for (int i = 0; i < array.length(); i++) {
-
-                    JSONObject jo = array.getJSONObject(i);
-                    leaveListId.add(jo.getString("id"));
-                    leaveList.add(jo.getString("label"));
-                }
-                adapterLeaveTypes = new ArrayAdapter<String>(context, R.layout.row_spinner, R.id.textview, leaveList);
 
             }
         } catch (

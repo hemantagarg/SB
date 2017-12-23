@@ -77,6 +77,7 @@ public class AdapterHolidayList extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ((CustomViewHolder) holder).text_date.setText(m1.getDate());
             ((CustomViewHolder) holder).text_message.setText(m1.getName());
+            ((CustomViewHolder) holder).text_day.setText(m1.getDay_name());
 
             ((CustomViewHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override
