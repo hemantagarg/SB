@@ -18,9 +18,10 @@ public class AppConstant {
     public static final String USER_EMAIL = "user_email";
     public static final String USER_MOBILE = "user_mobile";
     public static final String AUTH_KEY = "auth_key";
-    public static final String USER_IMAGE= "user_image";
-    public static final String PUNCHIN_ID= "punchIn_id";
-    public static final String PUNCHOUT_ID= "punchOut_id";
+    public static final String USER_IMAGE = "user_image";
+    public static final String PASSWORD = "password";
+    public static final String PUNCHIN_ID = "punchIn_id";
+    public static final String PUNCHOUT_ID = "punchOut_id";
 
 
     public static final String SKYBARGE_PATH = "/SkyBarge/";
