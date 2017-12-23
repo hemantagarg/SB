@@ -16,6 +16,7 @@ public interface JsonApiHelper {
     String ATTANDANCE_PUNCHOUT = "attendancepunchout";
     String APPLY_LEAVE = "apply-leave";
     String LEAVE_TYPE = "leave-type";
+    String CHECK_VERSION = "check-version";
     String VIEW_CALENDER = "viewcalender";
     String HOLIDAY_LIST = "holidaylist";
     String FORGOT_PASSWORD = "forget-password";

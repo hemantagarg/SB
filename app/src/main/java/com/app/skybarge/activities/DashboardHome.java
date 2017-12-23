@@ -640,8 +640,6 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
                     public void onClick(DialogInterface dialog, int which) {
 
                         AppUtils.setUserId(context, "");
-
-
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

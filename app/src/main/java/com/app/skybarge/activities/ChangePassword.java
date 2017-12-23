@@ -1,6 +1,7 @@
 package com.app.skybarge.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -168,16 +169,15 @@ public class ChangePassword extends AppCompatActivity implements ApiResponse {
 
         try {
             if (method == 1) {
-
-                // JSONObject commandResult = response.getJSONObject("commandResult");
-
                 if (response.getString("status").equalsIgnoreCase("1")) {
 
                     Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
-                    mActivity.onBackPressed();
+                    AppUtils.setUserId(mActivity, "");
+                    Intent intent = new Intent(mActivity, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     finish();
                 } else {
-
                     Toast.makeText(mActivity, response.getString("message"), Toast.LENGTH_SHORT).show();
                 }
             }
