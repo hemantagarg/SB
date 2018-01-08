@@ -2,5 +2,9 @@
     {
         "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable/selector_crop_button.xml",
         "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE27NOV/SB/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable/selector_crop_button.xml"
+    },
+    {
+        "merged": "/Users/stackmindz/Documents/Android_projects/SKYBARGE26dec/SB/simple-crop-image-lib/build/intermediates/res/merged/androidTest/debug/drawable/selector_crop_button.xml",
+        "source": "/Users/stackmindz/Documents/Android_projects/SKYBARGE26dec/SB/simple-crop-image-lib/build/intermediates/bundles/debug/res/drawable/selector_crop_button.xml"
     }
 ]

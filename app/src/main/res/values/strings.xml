@@ -58,6 +58,7 @@
     <string name="employee_no">Employee No.</string>
     <string name="designation">Designation</string>
     <string name="name">Name</string>
+    <string name="spousename">Spouse Name</string>
     <string name="father_s_name">Father\'s Name</string>
     <string name="date_of_anniversary">Date of Anniversary</string>
     <string name="date_of_joining">Date of Joining</string>

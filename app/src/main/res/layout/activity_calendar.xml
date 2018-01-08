@@ -234,7 +234,7 @@
                     android:drawableRight="@drawable/downdrop"
                     android:maxLines="1"
                     android:padding="@dimen/dp15"
-                    android:text="Salary Credit July"
+                    android:text="Salary Credit This Month "
                     android:textColor="@color/textcolordark"
                     android:textSize="@dimen/text_size_14" />
 

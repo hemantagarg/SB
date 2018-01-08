@@ -427,7 +427,7 @@ android:clickable="false"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:padding="@dimen/dp5"
-                        android:text="@string/no_of_dependent"
+                        android:text="@string/spousename"
                         android:textColor="@color/textcolorlight"
                         android:textSize="@dimen/text_size_13" />
 
