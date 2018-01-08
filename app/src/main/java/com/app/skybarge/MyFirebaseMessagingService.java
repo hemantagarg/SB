@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.app.skybarge.activities.DashboardHome;
+import com.app.skybarge.utils.AppUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -23,6 +24,8 @@ import java.util.Random;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    public static int BadgeCount=0;
+
     public static int value = 0;
     public static int PushNotificationId = -1;
 
@@ -32,6 +35,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData() != null) {
             //  Log.d("FCM", "Notification Message Body: " + remoteMessage.getNotification().getBody());
             Log.e("body", "*" + remoteMessage.getData());
+            BadgeCount = AppUtils.getBadgeCount(getApplicationContext());
+            BadgeCount++;
+            AppUtils.setBadgeCount(getApplicationContext(), BadgeCount);
+            AppUtils.setBadge(getApplicationContext(), AppUtils.getBadgeCount(getApplicationContext()));
             sendNotification(remoteMessage.getData().get("text"), remoteMessage.getData().get("title"), remoteMessage.getData().get("type"));
 //          sendNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTag());
         }

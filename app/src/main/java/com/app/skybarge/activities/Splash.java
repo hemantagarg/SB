@@ -66,7 +66,7 @@ public class Splash extends AppCompatActivity implements ApiResponse {
 
         alertDialog.setTitle("Update Info !");
 
-        alertDialog.setMessage("New verion is available. Please update application");
+        alertDialog.setMessage("Please update to latest version for more amazing features!");
 
         alertDialog.setPositiveButton("Update",
                 new DialogInterface.OnClickListener() {

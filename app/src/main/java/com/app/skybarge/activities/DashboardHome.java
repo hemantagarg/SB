@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +49,7 @@ import com.app.skybarge.interfaces.SwipeButtonCustomItems;
 import com.app.skybarge.utils.AppUtils;
 import com.app.skybarge.utils.GPSTracker;
 import com.app.skybarge.utils.SwipeButton;
+import com.wdullaer.materialdatetimepicker.Utils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.apache.http.HttpEntity;
@@ -75,8 +78,9 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private DrawerLayout drawer;
     private View main_view;
     private Button btn_need_leave;
+    private ImageView image_notification;
     private SwipeButton swipeButton;
-    private TextView mTvHome, mTvLeaveDays, mTvchangepassword,mTvholiday, mTvAttendanceDays, mTvyesterday_punched, mTvCredit_amount, mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
+    private TextView mTvHome,text_notification_count, mTvLeaveDays, mTvchangepassword,mTvholiday, mTvAttendanceDays, mTvyesterday_punched,mTvpinchinlog, mTvCredit_amount, mTvtodayPunchedTime, mTvProfile, mTvCalendar, mTvHolidayList, mTvNewLeaves, mTvLeavePolicy, mTvGm;
     private String TAG = DashboardHome.class.getSimpleName();
     private int PERMISSION_ALL = 1;
     private String[] PERMISSIONS = {android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -147,6 +151,17 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     }
 
     private void setListner() {
+        image_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, NotificationList.class);
+                AppUtils.setBadgeCount(context, 0);
+                AppUtils.setBadge(context, AppUtils.getBadgeCount(getApplicationContext()));
+                startActivity(intent);
+
+
+            }
+        });
         punchin_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +228,12 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, UserProfile.class);
+                startActivity(intent);
+            }
+        }); mTvpinchinlog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PunchInLog.class);
                 startActivity(intent);
             }
         });
@@ -370,6 +391,15 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             showSettingsAlert();
         }
         getattendancedata();
+
+
+        if (AppUtils.getBadgeCount(context) == 0) {
+            text_notification_count.setVisibility(View.GONE);
+
+        } else {
+            text_notification_count.setText("" + AppUtils.getBadgeCount(context));
+            text_notification_count.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -566,12 +596,14 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
         mTvGm = (TextView) findViewById(R.id.mTvGoodMorning);
+        text_notification_count = (TextView) findViewById(R.id.text_notification_count);
         mTvHome = (TextView) findViewById(R.id.mTvHome);
         mTvProfile = (TextView) findViewById(R.id.mTvProfile);
+        mTvpinchinlog = (TextView) findViewById(R.id.mTvpinchinlog);
         mTvchangepassword = (TextView) findViewById(R.id.mTvchangepassword);
         mTvCalendar = (TextView) findViewById(R.id.mTvCalendar);
         mTvHolidayList = (TextView) findViewById(R.id.mTvHolidayList);
-
+        image_notification=(ImageView)findViewById(R.id.image_notification);
         mTvLogout = (TextView) findViewById(R.id.mTvLogout);
         mTvNewLeaves = (TextView) findViewById(R.id.mTvNewLeaves);
         mTvLeavePolicy = (TextView) findViewById(R.id.mTvLeavePolicy);
@@ -641,6 +673,10 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
 
                         AppUtils.setUserId(context, "");
                         Intent intent = new Intent(context, LoginActivity.class);
+                        NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        nMgr.cancelAll();
+                        AppUtils.setBadgeCount(context, 0);
+                        AppUtils.setBadge(context, AppUtils.getBadgeCount(getApplicationContext()));
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
