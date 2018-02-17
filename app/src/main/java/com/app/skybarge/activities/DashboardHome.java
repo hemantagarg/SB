@@ -28,8 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,11 +43,9 @@ import com.app.skybarge.R;
 import com.app.skybarge.aynctask.CommonAsyncTask;
 import com.app.skybarge.interfaces.ApiResponse;
 import com.app.skybarge.interfaces.JsonApiHelper;
-import com.app.skybarge.interfaces.SwipeButtonCustomItems;
 import com.app.skybarge.utils.AppUtils;
 import com.app.skybarge.utils.GPSTracker;
 import com.app.skybarge.utils.SwipeButton;
-import com.wdullaer.materialdatetimepicker.Utils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.apache.http.HttpEntity;
@@ -71,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+
 
 public class DashboardHome extends AppCompatActivity implements ApiResponse, DatePickerDialog.OnDateSetListener {
 
@@ -95,7 +92,6 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
     private RelativeLayout mRlSwipePunchin;
     private TextView mTvFromDate, mTvToDate, mTvtype_of_leave, mTvSwipe, mTvLogout;
     private static DashboardHome mInstance;
-    private Button btn_swipe;
     private SwitchCompat punchin_switch;
 
     /***********************************************
@@ -120,9 +116,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         init();
         setListner();
         setData();
-
         getLeaveType();
-
     }
 
 
@@ -174,27 +168,6 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
 
             }
         });*/
-
-        btn_swipe.setOnTouchListener(new OnSwipeTouchListener(context) {
-            public void onSwipeTop() {
-                //      Toast.makeText(context, "top", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onSwipeRight() {
-                animImage(context);
-                checkGps();
-                //   Toast.makeText(context, "right", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onSwipeLeft() {
-                //   Toast.makeText(context, "left", Toast.LENGTH_SHORT).show();
-            }
-
-            public void onSwipeBottom() {
-                //   Toast.makeText(context, "bottom", Toast.LENGTH_SHORT).show();
-            }
-
-        });
 
         mTvHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,86 +251,8 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             mTvGm.setText("GOOD NIGHT"+" "+AppUtils.getUserName(context));
         }
 
-        SwipeButtonCustomItems swipeButtonSettings = new SwipeButtonCustomItems() {
-            @Override
-            public void onSwipeConfirm() {
-                Log.d("NEW_STUFF", "New swipe confirm callback");
-                checkGps();
-            }
-        };
-        if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
-            swipeButtonSettings
-                    .setGradientColor1(android.R.color.transparent)
-                    .setGradientColor2(android.R.color.transparent)
-                    .setGradientColor2Width(60)
-                    .setGradientColor3(android.R.color.transparent)
-                    .setPostConfirmationColor(R.drawable.swipe_out_bg)
-                    .setActionConfirmDistanceFraction(0.6)
-
-                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_out));
-        } else {
-            swipeButtonSettings
-                    .setGradientColor1(android.R.color.transparent)
-                    .setGradientColor2(android.R.color.transparent)
-                    .setGradientColor2Width(60)
-                    .setGradientColor3(android.R.color.transparent)
-                    .setPostConfirmationColor(R.drawable.swipbg)
-                    .setActionConfirmDistanceFraction(0.6)
-                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_in));
-
-        }
-
-        if (swipeButton != null) {
-            swipeButton.setSwipeButtonCustomItems(swipeButtonSettings);
-        }
     }
 
-    private void removeSwipeColors() {
-        SwipeButtonCustomItems swipeButtonSettings = new SwipeButtonCustomItems() {
-            @Override
-            public void onSwipeConfirm() {
-
-            }
-        };
-        if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
-            swipeButtonSettings
-                    .setGradientColor1(android.R.color.transparent)
-                    .setGradientColor2(android.R.color.transparent)
-                    .setGradientColor2Width(60)
-                    .setGradientColor3(android.R.color.transparent)
-                    .setPostConfirmationColor(R.drawable.swipe_out_bg)
-                    .setActionConfirmDistanceFraction(0.6)
-                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_out));
-        } else {
-            swipeButtonSettings
-                    .setGradientColor1(android.R.color.transparent)
-                    .setGradientColor2(android.R.color.transparent)
-                    .setGradientColor2Width(60)
-                    .setGradientColor3(android.R.color.transparent)
-                    .setPostConfirmationColor(R.drawable.swipbg)
-                    .setActionConfirmDistanceFraction(0.6)
-                    .setActionConfirmText(getResources().getString(R.string.swipe_to_punch_in));
-
-        }
-
-        if (swipeButton != null) {
-            swipeButton.setSwipeButtonCustomItems(swipeButtonSettings);
-        }
-
-    }
-
-    /**
-     * Animate the swipe rightto left
-     *
-     * @param context context of the activity or fragment
-     */
-    private void animImage(final Context context) {
-        // Load the animation like this
-        final Animation animRightToLeft = AnimationUtils.loadAnimation(context, R.anim.slide_right);
-        btn_swipe.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        // Start the animation like this
-        btn_swipe.startAnimation(animRightToLeft);
-    }
 
     public void checkGps() {
         GPSTracker gps = new GPSTracker(context);
@@ -371,7 +266,7 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
             if (AppUtils.getPunchInId(context).equalsIgnoreCase("")) {
                 punchIn();
             } else {
-                punchOut();
+                punchOutConfirmation();
             }
 
         } else {
@@ -611,8 +506,6 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         mTvholiday = (TextView) findViewById(R.id.mTvholiday);
         mRlSwipePunchin = (RelativeLayout) findViewById(R.id.mRlSwipePunchin);
         btn_need_leave = (Button) findViewById(R.id.btn_need_leave);
-        swipeButton = (SwipeButton) findViewById(R.id.swipeBtn);
-        btn_swipe = (Button) findViewById(R.id.btn_swipe);
 
         mTvtodayPunchedTime = (TextView) findViewById(R.id.mTvtodayPunchedTime);
         mTvCredit_amount = (TextView) findViewById(R.id.mTvCredit_amount);
@@ -657,6 +550,37 @@ public class DashboardHome extends AppCompatActivity implements ApiResponse, Dat
         drawer.setDrawerListener(toggle);
         toggle.syncState();
     }
+
+    private void punchOutConfirmation() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                DashboardHome.this);
+
+        alertDialog.setTitle("Punch Out");
+
+        alertDialog.setMessage("Are you sure you want to Punch Out?");
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                      punchOut();
+                    }
+
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
+
+    }
+
 
     private void showLogoutBox() {
 

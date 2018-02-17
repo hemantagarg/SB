@@ -45,7 +45,6 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'com.android.support:design:26.+'
     testCompile 'junit:junit:4.12'
-    compile project(':samsungBadger')
 
 }
 apply plugin: 'com.google.gms.google-services'
